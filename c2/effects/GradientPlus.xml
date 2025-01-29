@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>GradientPlus</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>GradientPlus</name>
+	<category>Color</category>
+	<description>2 color gradient.horizontal,vertical or diagnol.</description>
+	<author>chrisbrobs2015</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>color1R</name>
+			<description>amount of red in color1, 0 to 100.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>color1R</uniform>
+		</param>
+		<param>
+			<name>color1G</name>
+			<description>amount of green in color1, 0 to 100.</description>
+			<type>percent</type>
+			<initial>0</initial>
+			<uniform>color1G</uniform>
+		</param>
+				<param>
+			<name>color1B</name>
+			<description>amount of blue in color1, 0 to 100.</description>
+			<type>percent</type>
+			<initial>0</initial>
+			<uniform>color1B</uniform>
+		</param>
+				<param>
+			<name>color2R</name>
+			<description>amount of red in color2, 0 to 100.</description>
+			<type>percent</type>
+			<initial>0</initial>
+			<uniform>color2R</uniform>
+		</param>
+		<param>
+			<name>color2G</name>
+			<description>amount of green in color2, 0 to 100.</description>
+			<type>percent</type>
+			<initial>0</initial>
+			<uniform>color2G</uniform>
+		</param>
+				<param>
+			<name>color2B</name>
+			<description>amount of blue in color2, 0 to 100.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>color2B</uniform>
+		</param>
+			 <param>
+			<name>direction</name>
+			<description>use 0=horizontal,1=vertical,2=diagonal,3=half diagonal.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>direction</uniform>
+		</param>
+	</parameters>
+</c2effect>

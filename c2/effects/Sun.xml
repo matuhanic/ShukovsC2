@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Sun</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Sun</name>
+	<category>Color</category>
+	<description>sun effect, with radiating blade .</description>
+	<author>chrisbrobs.original code from gls-sandbox</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+				<!-- Parameters -->
+	<parameters>	
+		<param>
+			<name>BLADECOUNT</name>
+			<description> number of radiating blades: 0=none,8=default,higher=more</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>BLADECOUNT</uniform>
+	</param>		
+		<param>
+			<name>BRIGHTNESS</name>
+			<description>sun brightness: min=100 ,140=default, higher=brighter</description>
+			<type>percent</type>
+			<initial>1.4</initial>
+			<uniform>BRIGHTNESS</uniform>
+	</param>		
+		<param>
+			<name>XPOS</name>
+			<description> X position of sun, 0 to 1(left to right), 0.5 = middle</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>XPOS</uniform>
+	</param>		
+		<param>
+			<name>YPOS</name>
+			<description> Y position of sun, 0 to 1(top to bottom), 0.5 = middle</description>
+			<type>float</type>
+			<initial>0.3</initial>
+			<uniform>YPOS</uniform>
+	</param>
+		<param>
+			<name>BIAS</name>
+			<description>amount of bias 0 to 1, deafault 0.4</description>
+			<type>float</type>
+			<initial>0.4</initial>
+			<uniform>BIAS</uniform>
+	</param>		
+		<param>
+			<name>SHARPNESS</name>
+			<description>effect sharpness 0 to 10, deafault 5.0</description>
+			<type>float</type>
+			<initial>5.0</initial>
+			<uniform>SHARPNESS</uniform>
+	</param>
+		<param>
+			<name>SCALE</name>
+			<description>size of the sun, 0.0(invisible) to 1.0, default 0.2</description>
+			<type>float</type>
+			<initial>0.2</initial>
+			<uniform>SCALE</uniform>
+		</param>
+</parameters>
+
+</c2effect>

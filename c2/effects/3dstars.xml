@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>3dstars</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>3D Stars Fx</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>3D Stars Glsls Fx</description>
+	<author>Gigatron</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->  
+	<parameters>
+	<param>
+			<name>Clouds On/Off</name>
+			<description>Visibility of Clouds 1.0 visible 0 invisible </description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>clouds_visible</uniform>
+	</param>
+	<param>
+			<name>Center Star On/Off</name>
+			<description>Visibility of center Star 1.0 visible 0 invisible </description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>center_stars_visible</uniform>
+	</param>
+	<param>
+			<name>Moving Stars On/Off</name>
+			<description>Visibility of Moving Stars 1.0 visible 0 invisible </description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>moving_stars_visible</uniform>
+	</param>
+	<param>
+			<name>Asteroids On/Off</name>
+			<description>Visibility of Asteroids 1.0 visible 0 invisible </description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>asteroids_visible</uniform>
+	</param>
+	<param>
+			<name>Asteroids Intensity</name>
+			<description>Intensity of the Asteroids 0.0 to 1.0 </description>
+			<type>float</type>
+			<initial>0.3</initial>
+			<uniform>asteroids_intensitiy</uniform>
+	</param>
+	<param>
+			<name>Speed</name>
+			<description>Speed Of FX eg : 0.02 </description>
+			<type>percent</type>
+			<initial>0.002</initial>
+			<uniform>speed</uniform>
+	</param>
+	<param>
+			<name>Density</name>
+			<description>Density of Stars </description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>density</uniform>
+	</param>
+	<param>
+			<name>Brightness</name>
+			<description>Brightness of Space </description>
+			<type>float</type>
+			<initial>3.0</initial>
+			<uniform>brightness</uniform>
+	</param>
+	<param>
+			<name>Red</name>
+			<description>Red Color Component of Star </description>
+			<type>float</type>
+			<initial>0.95</initial>
+			<uniform>red</uniform>
+	</param>
+	<param>
+			<name>Green</name>
+			<description>Green Color Component of Star </description>
+			<type>float</type>
+			<initial>0.65</initial>
+			<uniform>green</uniform>
+	</param>
+	<param>
+			<name>Blue</name>
+			<description>Blue Color Component of Star </description>
+			<type>float</type>
+			<initial>0.30</initial>
+			<uniform>blue</uniform>
+	</param>
+	
+	
+	</parameters>
+	
+</c2effect>

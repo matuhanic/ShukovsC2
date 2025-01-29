@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Petals</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Flower Petals</name>
+	<category>GamesWarp</category>
+	<description>Effect that looks like a blooming flower</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>X-Coord</name>
+			<description>X coord of mouse point. Remember to use "Mouse.X" if dependent on mouse location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseX</uniform>
+		</param>
+		<param>
+			<name>Y-Coord</name>
+			<description>Y coord of mouse point. Remember to use "LayoutHeight - Mouse.Y" if dependent on mouse location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseY</uniform>
+		</param>	
+		<param>
+			<name>Petals</name>
+			<description>Governs number of petals. Use values ranging from -30 to 30 for best effect; sign denotes direction of rotation.</description>
+			<type>float</type>
+			<initial>5.0</initial>
+			<uniform>petals</uniform>
+		</param>
+		<param>
+			<name>Zoom</name>
+			<description>Governs the zoom factor. Use values ranging from -100 to 100 for best effect; sign denotes direction of tunnel effect</description>
+			<type>float</type>
+			<initial>50.0</initial>
+			<uniform>zoom</uniform>
+		</param>
+		<param>
+			<name>Contrast</name>
+			<description>Controls the color contrast. Use values ranging from -1 to 10 for best effect</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>contrast</uniform>
+		</param>		
+	</parameters>
+</c2effect>

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>plasma</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Plasma</name>
+	<category>GamesWarp</category>
+	<description>Plasma</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Zoom</name>
+			<description>Zoom Factor. Use range of values from 0.5 to 10. Default is 1.6</description>
+			<type>float</type>
+			<initial>1.6</initial>
+			<uniform>zoom</uniform>
+		</param>	
+		<param>
+			<name>Direction1</name>
+			<description>Direction of plasma flow. Use range of values from -5 to 5. Default is 0.1</description>
+			<type>float</type>
+			<initial>0.1</initial>
+			<uniform>dir1</uniform>
+		</param>
+		<param>
+			<name>Direction2</name>
+			<description>Direction of plasma flow. Use range of values from -5 to 5. Default is 0.1</description>
+			<type>float</type>
+			<initial>0.1</initial>
+			<uniform>dir2</uniform>
+		</param>
+		<param>
+			<name>Red</name>
+			<description>Use range of values from 0 to 1. Default is 1.0</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>red</uniform>
+		</param>
+		<param>
+			<name>Green</name>
+			<description>Use range of values from 0 to 1. Default is 1.0</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>green</uniform>
+		</param>
+		<param>
+			<name>Blue</name>
+			<description>Use range of values from 0 to 1. Default is 1.0</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>blue</uniform>
+		</param>		
+	</parameters>
+</c2effect>

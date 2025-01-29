@@ -1,0 +1,134 @@
+﻿// ECMAScript 5 strict mode
+"use strict";
+
+assert2(cr, "cr namespace not created");
+assert2(cr.behaviors, "cr.behaviors not created");
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.babylonTextMat = function (runtime) {
+	this.runtime = runtime;
+};
+
+(function () {
+	var behaviorProto = cr.behaviors.babylonTextMat.prototype;
+
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function (behavior, objtype) {
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function () {};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function (type, inst) {
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst; // associated object instance to modify
+		this.runtime = type.runtime;
+		this.done = false;
+		if (this.inst.mytype == "_mesh") {
+			this.meshname = this.inst.properties[0];
+		} else {
+			this.meshname = "mesh" + this.inst.uid;
+		}
+	};
+
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function () {};
+
+	behinstProto.postCreate = function () {};
+
+	function hex2rgb(hex) {
+		return {
+			r: hex & 0xff,
+			g: (hex >> 8) & 0xff,
+			b: (hex >> 16) & 0xff
+		};
+	}
+
+	function getXYZ(c2xyz, inst) {
+		var xyz = c2xyz;
+		xyz = xyz.split(",");
+		xyz[0] = xyz[0] - (inst.runtime.canvas.width / 2);
+		xyz[1] =  - (xyz[1] - (inst.runtime.canvas.height / 2));
+		xyz[2] = xyz[2];
+		return xyz;
+	}
+
+	behinstProto.saveToJSON = function () {};
+
+	behinstProto.loadFromJSON = function (o) {};
+
+	behinstProto.tick = function () {
+		if (!this.done) {
+			if (this.runtime.scenes[this.inst.properties[1]] && this.runtime.scenes[this.inst.properties[1]].getMeshByName(this.meshname)) {
+				var scene = this.runtime.scenes[this.inst.properties[1]];
+				this.texture = new BABYLON.DynamicTexture("texture" + this.uid, {
+						width: this.properties[3],
+						height: this.properties[4]
+					}, scene, true);
+				this.texture.drawText(this.properties[0], this.properties[1], this.properties[2], this.properties[5], "rgba(" + hex2rgb(this.properties[6]).r + "," + hex2rgb(this.properties[6]).g + "," + hex2rgb(this.properties[6]).b + ",1.0", "rgba(" + hex2rgb(this.properties[7]).r + "," + hex2rgb(this.properties[7]).g + "," + hex2rgb(this.properties[7]).b + "," + this.properties[8] + ")"); // "transparent"
+
+				this.mat = new BABYLON.StandardMaterial("textmat" + this.uid, scene);
+				this.mat.diffuseTexture = this.texture;
+				this.mat.diffuseTexture.hasAlpha = true;
+				this.mat.backFaceCulling = false;
+				//titleMat.emissiveColor = BABYLON.Color3.White();
+				
+				this.runtime.scenes[this.inst.properties[1]].getMeshByName(this.meshname).material = this.mat;
+				this.runtime.scenes[this.inst.properties[1]].getMeshByName(this.meshname).billboardMode = this.properties[9];
+				this.done = true;
+			}
+
+		}
+
+	}
+
+	behinstProto.doStart = function () {}
+
+	/**BEGIN-PREVIEWONLY**/
+	behinstProto.getDebuggerValues = function (propsections) {};
+
+	behinstProto.onDebugValueEdited = function (header, name, value) {};
+	/**END-PREVIEWONLY**/
+
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+
+	behaviorProto.cnds = new Cnds();
+
+	//////////////////////////////////////
+	// Actions
+	function Acts() {};
+	
+
+	Acts.prototype.UpdateText = function (t, x, y, p, fc, bc) {
+		this.texture.drawText(t, x, y, p, fc, bc, true, true);
+	};	
+	
+	Acts.prototype.AddText = function (t, x, y) {
+		this.texture.getContext().fillText(t,x,y);
+		this.texture.update();
+	};
+	
+	behaviorProto.acts = new Acts();
+
+	//////////////////////////////////////
+	// Expressions
+	function Exps() {};
+
+
+
+	behaviorProto.exps = new Exps();
+
+}
+	());

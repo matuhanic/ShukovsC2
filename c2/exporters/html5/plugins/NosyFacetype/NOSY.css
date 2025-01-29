@@ -1,0 +1,25 @@
+@font-face 
+{
+	font-family: "Nosy";
+	src: url(NOSY_Facetype_by_Rory_Harnden.otf) format("opentype");
+}
+
+.Nosyoutput 
+{
+	font-family: "Nosy";
+	font-size: 20px;
+	padding:0px;
+	margin:0px;
+	 
+
+	-o-font-feature-settings: "liga" on;
+	-o-font-variant-ligatures: common-ligatures;
+	-moz-font-feature-settings: "liga" on;
+	-moz-font-variant-ligatures: common-ligatures;
+	-webkit-font-feature-settings: "liga" on;
+	-webkit-font-variant-ligatures: common-ligatures;
+	-ms-font-feature-settings: "liga" on;
+	-ms-font-variant-ligatures: common-ligatures;
+	font-feature-settings: "liga" on;
+	font-variant-ligatures: common-ligatures;
+}

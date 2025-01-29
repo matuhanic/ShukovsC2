@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>25dplatformer</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>2.5D Platformer FX</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>2.5D Platformer FX</description>
+	<author>Gigatron</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>true</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<!-- An example parameter, with the following tags:
+			name: the displayed name of the parameter
+			description: appears at the bottom of the properties bar when selected
+			type: either float or percent.  Percent is just a float but displayed x 100.
+			initial: initial value of the parameter
+			uniform: name of the corresponding uniform variable in the .fx file.
+			
+			You can add as many parameters as you like.
+		-->
+				
+	 	 <param>
+			<name>X_Rotation</name>
+			<description>X Rotation</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>rot_x</uniform>
+		</param>
+		<param>
+			<name>Y_Rotation</name>
+			<description>Y Rotation</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>rot_y</uniform>
+		</param>
+		<param>
+			<name>Z_Rotation</name>
+			<description>Z Rotation</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>rot_z</uniform>
+		</param>
+		<param>
+			<name>Translate X</name>
+			<description>Translate X</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>trx</uniform>
+	</param>
+	 <param>
+			<name>Translate Y</name>
+			<description>Translate Y</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>try</uniform>
+	</param>
+	
+	<param>
+			<name>Roll X</name>
+			<description>Roll X</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>rlx</uniform>
+	</param>
+	<param>
+			<name>Roll Y</name>
+			<description>Roll Y</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>rly</uniform>
+	</param>
+	<param>
+			<name>Width</name>
+			<description>Width</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>w</uniform>
+	</param>
+		<param>
+			<name>Height</name>
+			<description>Height</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>h</uniform>
+	</param>
+		<param>
+			<name>Depth</name>
+			<description>Depth</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>d</uniform>
+	</param>
+	
+
+		
+		<param>
+			<name>Zoom_Factor</name>
+			<description>Zoom Factor</description>
+			<type>float</type>
+			<initial>-5.8</initial>
+			<uniform>zoom</uniform>
+		</param>
+		<param>
+			<name>Color Intensity</name>
+			<description>Intensity Of Global Color</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>intensity</uniform>
+		</param>
+		<param>
+			<name>X Face</name>
+			<description>Only Left+Right Face 1/0 yes/no</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>x_face</uniform>
+		</param> 
+		<param>
+			<name>Y Face</name>
+			<description>Only Up+Down Face 1/0 yes/no</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>y_face</uniform>
+		</param> 
+		<param>
+			<name>Z Face</name>
+			<description>Front Back Face 1/0 yes/no</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>z_face</uniform>
+		</param> 
+		
+		<param>
+			<name>All Face</name>
+			<description>Display all faces 1/0 yes/no</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>all_faces</uniform>
+		</param> 
+
+		<param>
+			<name>Light X</name>
+			<description>Light X pos</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>llx</uniform>
+		</param>
+		<param>
+			<name>Light Y</name>
+			<description>Light Y pos</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>lly</uniform>
+		</param>
+		<param>
+			<name>Light Z</name>
+			<description>Light Z pos</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>llz</uniform>
+		</param>
+		<param>
+			<name>Light Depth</name>
+			<description>Light Depth On/Off 1.0/0.0</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>lightdp_on</uniform>
+		</param>
+		
+		<param>
+			<name>X Axis</name>
+			<description>X Axis Rotation  1.0 or 0.0</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>x_axis</uniform>
+		</param>
+		<param>
+			<name>Y Axis</name>
+			<description>Y Axis Rotation  1.0 or 0.0</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>y_axis</uniform>
+		</param>
+		<param>
+			<name>Z Axis</name>
+			<description>Z Axis Rotation  1.0 or 0.0</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>z_axis</uniform>
+		</param>
+		<param>
+			<name>Angle</name>
+			<description>Rotation Axis Angle</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>axis_ang</uniform>
+		</param>
+		
+		
+		
+		
+		<param>
+			<name>Debug</name>
+			<description>Show Empty Space Color Around Box</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>debug</uniform>
+		</param>
+		
+		
+		
+	</parameters>
+	
+</c2effect>

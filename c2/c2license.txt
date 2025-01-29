@@ -1,0 +1,9 @@
+﻿License type: PERSONAL
+Product: Construct 2
+Licensed to: stas
+Email: newmailstas@mail.ru
+Comment: With best wishes from Figgler [mrfiggler@gmail.com]
+Timestamp: 1606146464
+Hash: 839B1D9D5978EED6E2DD434B0978832D1F23509231E6DD92A
+
+This is PRIVATE license. Please TURN OFF "UPDATE CHECKING" in C2 preferences BEFORE USE!!!

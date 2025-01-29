@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+   <!-- About -->
+   <id>Lottes</id>         <!-- Never change the ID.  Change the name instead -->
+   <name>Lottes CRT</name>
+   <category>Advanced Effect Layout</category>
+   <description>Lottes CRT shader</description>
+   <author>Timothy Lottes / converted by ErekT</author>
+   
+   <!-- Settings -->
+   
+   <!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+       of effects which go beyond the object edges, e.g. blur and warp. -->
+   <extend-box-horizontal>10</extend-box-horizontal>
+   <extend-box-vertical>10</extend-box-vertical>
+   
+   <!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+   <blends-background>false</blends-background>
+   
+   <!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+       background texture co-ordinates are modified in some way by the shader, as done
+       by Glass and Lens) -->
+   <cross-sampling>false</cross-sampling>
+   
+   <!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+   <animated>false</animated>
+   
+   <!-- Parameters -->
+   <parameters>
+      <param>
+         <name>Width</name>
+         <description>Game resolution X</description>
+         <type>float</type>
+         <initial>0</initial>
+         <uniform>WindowsWidth</uniform>
+      </param>
+      <param>
+         <name>Height</name>
+         <description>Game resolution Y</description>
+         <type>float</type>
+         <initial>0</initial>
+         <uniform>WindowsHeight</uniform>
+      </param>
+      <param>
+         <name>Scanline Strength</name>
+         <description>How strong (visible) the scanlines are. 8 = soft, 16 = medium. Default 10</description>
+         <type>float</type>
+         <initial>10.0</initial>
+         <uniform>Scn_Strength</uniform>
+      </param>
+      <param>
+         <name>Horizontal fuzziness</name>
+         <description>2 is fuzzy, 8 and above is sharp. Default 4</description>
+         <type>float</type>
+         <initial>4.0</initial>
+         <uniform>Horizontal_Fuzz</uniform>
+      </param>      
+      <param>
+         <name>Shadow mask - darkness amount</name>
+         <description>Use this along with lightness amount to adjust strength. Default 0.5</description>
+         <type>float</type>
+         <initial>0.5</initial>
+         <uniform>ShMask_dark</uniform>
+      </param>           
+      <param>
+         <name>Shadow mask - lightness amount</name>
+         <description>Use this along with darkness amount to adjust strength. Default 1.5</description>
+         <type>float</type>
+         <initial>1.5</initial>
+         <uniform>ShMask_light</uniform>
+      </param>           
+   </parameters>
+</c2effect>

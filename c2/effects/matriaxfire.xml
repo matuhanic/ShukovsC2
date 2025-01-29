@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>matriaxfire</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Fire Flames</name>
+	<category>Animated FX</category>
+	<description>Animated fire flames</description>
+	<author>Matriax</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>true</cross-sampling>
+	
+		<!-- Set to true if the shader does not modify the opaque areas of the foreground. In other words
+		 any opaque pixels in the original image are output in the same position and still fully opaque.
+		 This is used to optimise the front-to-back renderer's depth pass, since it can still write depth
+		 and skip overdraw for any objects using only shaders which preserve opaqueness. -->
+	<preserves-opaqueness>false</preserves-opaqueness>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	
+	
+
+	<!-- Parameters -->
+	<parameters>
+			
+		<param>
+			<name>Flame 1 (0=Off | 1=On)</name>
+			<description>Enable/Disable Flame</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>flameA</uniform>
+		</param>	
+		
+		<param>
+			<name>Flame 2 (0=Off | 1=On)</name>
+			<description>Enable/Disable Flame</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>flameB</uniform>
+		</param>	
+		
+				
+		<param>
+			<name>Background Blend</name>
+			<description>Background Blend | 1= 0 opacity</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>blendBack</uniform>
+		</param>
+			
+						
+		<param>
+			<name>Y Position Effect</name>
+			<description></description>
+			<type>float</type>
+			<initial>0.8</initial>
+			<uniform>fireYpos</uniform>
+		</param>	
+		
+		<param>
+			<name>Fire Size</name>
+			<description>Fire Size</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>fireSize</uniform>
+		</param>		
+		
+		<param>
+			<name>Flames Position</name>
+			<description>Flames Position to get diferent forms</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>flamesP</uniform>
+		</param>
+		
+		
+		
+		<param>
+			<name>Flame Intensity</name>
+			<description>Flame Intensity | 0 to 2</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>flameI</uniform>
+		</param>
+		
+				<param>
+			<name>Flame Contrast</name>
+			<description>Flame Contrast</description>
+			<type>float</type>
+			<initial>2</initial>
+			<uniform>flameContr</uniform>
+		</param>
+		
+		
+		<!-- 0 1.2 1-->
+		<param>
+			<name>Flame Color (Red)</name>
+			<description>Flame Color (Red)</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>flameColorR</uniform>
+		</param>
+		
+
+		<param>
+			<name>Flame Color (Green)</name>
+			<description>Flame Color (Green)</description>
+			<type>float</type>
+			<initial>1.2</initial>
+			<uniform>flameColorG</uniform>
+		</param>
+		
+		<param>
+			<name>Flame Color (Blue)</name>
+			<description>Flame Color (Blue)</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>flameColorB</uniform>
+		</param>
+		
+
+	<!--  GENERAL COLOR -->/
+		<param>
+			<name>General Color (Red)</name>
+			<description>Flame Color (Red)</description>
+			<type>float</type>
+			<initial>0.8</initial>
+			<uniform>generalColorR</uniform>
+		</param>
+		
+
+		<param>
+			<name>General Color (Green)</name>
+			<description>general Color (Green)</description>
+			<type>float</type>
+			<initial>0.2</initial>
+			<uniform>generalColorG</uniform>
+		</param>
+		
+
+		<param>
+			<name>General Color (Blue)</name>
+			<description>general Color (Blue)</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>generalColorB</uniform>
+		</param>
+		
+				<param>
+			<name>General Intensity</name>
+			<description>General Intensity</description>
+			<type>float</type>
+			<initial>0.2</initial>
+			<uniform>generalI</uniform>
+		</param>
+		
+		
+		
+
+		<param>
+			<name>Fire Speed</name>
+			<description>FIre Speed</description>
+			<type>float</type>
+			<initial>10</initial>
+			<uniform>fireSPD</uniform>
+		</param>
+		
+		<param>
+			<name>Flame Form</name>
+			<description>Flame Form</description>
+			<type>float</type>
+			<initial>1.5</initial>
+			<uniform>flameForm</uniform>
+		</param>
+		
+
+
+<!-- wave form -->
+		<param>
+			<name>Fire Wave Form 1</name>
+			<description>Fire Wave Form 1</description>
+			<type>float</type>
+			<initial>20</initial>
+			<uniform>fireWaveF1</uniform>
+		</param>
+		<param>
+			<name>Fire Wave Form 2</name>
+			<description>Fire Wave Form 2</description>
+			<type>float</type>
+			<initial>0.03</initial>
+			<uniform>fireWaveF2</uniform>
+		</param>
+		
+
+
+<!-- WAVE MOVEMENT -->		
+		<param>
+			<name>Fire Wave Movement 1</name>
+			<description>Fire Wave Movement</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>fireWaveM1</uniform>
+		</param>
+		<param>
+			<name>Fire Wave Movement 2</name>
+			<description>Fire Wave Movement 2</description>
+			<type>float</type>
+			<initial>0.3</initial>
+			<uniform>fireWaveM2</uniform>
+		</param>
+		
+		
+	
+			<param>
+			<name>Flame Size (Vertical)</name>
+			<description>Flame Size (Vertical)</description>
+			<type>float</type>
+			<initial>10</initial>
+			<uniform>flameSize</uniform>
+		</param>
+		
+					<param>
+			<name>Flame Size (Horizontal)</name>
+			<description>Flame Size (Horizontal)</description>
+			<type>float</type>
+			<initial>0.2</initial>
+			<uniform>flameSizeH</uniform>
+		</param>
+		
+				<param>
+			<name>Flame Color Size (Vertical)</name>
+			<description>Flame Color Size (Vertical)</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>flameSizeV</uniform>
+		</param>
+		
+
+		<param>
+			<name>Horizontal waves</name>
+			<description>Number of Horizontal waves</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>fireWaveHn</uniform>
+		</param>
+		
+	
+		
+		
+		
+		
+
+		
+
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		<param>
+			<name>Seconds</name>
+			<description>seconds</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>seconds</uniform>
+		</param>
+		
+		
+		
+	</parameters>
+</c2effect>

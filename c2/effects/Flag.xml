@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Flag</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Flag</name>
+	<category>Distortion</category>
+	<description>Distort image in a flag-like fashion</description>
+	<author>Somebody</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Waves</name>
+			<description>Amount of waves </description>
+			<type>float</type>
+			<initial>5</initial>
+			<uniform>waves</uniform>
+		</param>
+		<param>
+			<name>Amplitude</name>
+			<description>Maximum vertical movement (in pixels)</description>
+			<type>float</type>
+			<initial>16</initial>
+			<uniform>amplitude</uniform>
+		</param>
+		<param>
+			<name>Time</name>
+			<description>Time in seconds for a full cycle</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>time</uniform>
+		</param>
+	</parameters>
+</c2effect>

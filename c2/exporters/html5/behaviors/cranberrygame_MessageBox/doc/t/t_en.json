@@ -1,0 +1,11 @@
+{
+	"c2dictionary":true,
+	"data":{
+	   "your_score_is_prefix":"Your score is ",
+	   "your_score_is_postfix":".",
+	   "you_succeeded_in_level_prefix":"You succeeded in level ",
+	   "you_succeeded_in_level_postfix":".",
+	   "you_failed_in_level_prefix":"You failed in level ",
+	   "you_failed_in_level_postfix":"."	   
+	}
+}

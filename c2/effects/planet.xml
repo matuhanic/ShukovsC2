@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>planet</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Planet Generator</name>
+	<category>GamesWarp</category>
+	<description>Planet Generator - under MIT License by Ian McEwan, Ashima Arts. Feel free to modify and change what you like but keep the copyright notices intact; commercial use accepted. Converted to C2 by GamesWarp Studio. </description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Planet Seed</name>
+			<description>Random seed number. Use anything you wish here.</description>
+			<type>float</type>
+			<initial>1234.0</initial>
+			<uniform>seed</uniform>
+		</param>
+		<param>
+			<name>Water Percentage</name>
+			<description>Percentage of water covering the planet. Use 0 to 100.</description>
+			<type>float</type>
+			<initial>71.0</initial>
+			<uniform>waterpercentage</uniform>
+		</param>
+		<param>
+			<name>Grass, Red</name>
+			<description>Grass - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>65.0</initial>
+			<uniform>grass_red</uniform>
+		</param>
+		<param>
+			<name>Grass, Green</name>
+			<description>Grass - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>83.0</initial>
+			<uniform>grass_green</uniform>
+		</param>
+		<param>
+			<name>Grass, Blue</name>
+			<description>Grass - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>31.0</initial>
+			<uniform>grass_blue</uniform>
+		</param>
+		<param>
+			<name>Dirt, Red</name>
+			<description>Dirt - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>115.0</initial>
+			<uniform>dirt_red</uniform>
+		</param>
+		<param>
+			<name>Dirt, Green</name>
+			<description>Dirt - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>105.0</initial>
+			<uniform>dirt_green</uniform>
+		</param>
+		<param>
+			<name>Dirt, Blue</name>
+			<description>Dirt - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>52.0</initial>
+			<uniform>dirt_blue</uniform>
+		</param>
+		<param>
+			<name>Forest, Red</name>
+			<description>Forest - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>31.0</initial>
+			<uniform>forest_red</uniform>
+		</param>
+		<param>
+			<name>Forest, Green</name>
+			<description>Forest - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>54.0</initial>
+			<uniform>forest_green</uniform>
+		</param>
+		<param>
+			<name>Forest, Blue</name>
+			<description>Forest - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>forest_blue</uniform>
+		</param>
+		<param>
+			<name>Desert, Red</name>
+			<description>Desert - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>255.0</initial>
+			<uniform>desert_red</uniform>
+		</param>
+		<param>
+			<name>Desert, Green</name>
+			<description>Desert - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>226.0</initial>
+			<uniform>desert_green</uniform>
+		</param>
+		<param>
+			<name>Desert, Blue</name>
+			<description>Desert - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>126.0</initial>
+			<uniform>desert_blue</uniform>
+		</param>
+		<param>
+			<name>Mountains, Red</name>
+			<description>Mountains - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>255.0</initial>
+			<uniform>mountains_red</uniform>
+		</param>
+		<param>
+			<name>Mountains, Green</name>
+			<description>Mountains - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>226.0</initial>
+			<uniform>mountains_green</uniform>
+		</param>
+		<param>
+			<name>Mountains, Blue</name>
+			<description>Mountains - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>126.0</initial>
+			<uniform>mountains_blue</uniform>
+		</param>
+		<param>
+			<name>Water, Red</name>
+			<description>Water - red color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>water_red</uniform>
+		</param>
+		<param>
+			<name>Water, Green</name>
+			<description>Water - green color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>water_green</uniform>
+		</param>
+		<param>
+			<name>Water, Blue</name>
+			<description>Water - blue color. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>52.0</initial>
+			<uniform>water_blue</uniform>
+		</param>			
+	</parameters>
+</c2effect>

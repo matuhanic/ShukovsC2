@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>CRT shader</id>
+	<name>CRT shader</name>
+	<category>Advance Effet Layout</category>
+	<description>Applie a CRT Shader to your Layout</description>
+	<author>Anata</author>
+	
+	<!-- Settings -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	<blends-background>false</blends-background>
+	<cross-sampling>false</cross-sampling>
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Width</name>
+			<description>Window Width</description>
+			<type>float</type>
+			<initial>640</initial>
+			<uniform>WindowsWidth</uniform>
+		</param>
+		<param>
+			<name>Height</name>
+			<description>Window Height</description>
+			<type>float</type>
+			<initial>480</initial>
+			<uniform>WindowsHeight</uniform>
+		</param>
+		<param>
+			<name>Distortion Enable</name>
+			<description>Set to 1 if you want to enable Distortion.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>distort</uniform>
+		</param>
+		<param>
+			<name>Distortion Amount</name>
+			<description>Distortion Amount : 0 to x</description>
+			<type>float</type>
+			<initial>10</initial>
+			<uniform>distortion</uniform>
+		</param>
+		<param>
+			<name>Border Enable</name>
+			<description>Set to 1 if you want to enable Border.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>border</uniform>
+		</param>
+		<param>
+			<name>Corner Smooth</name>
+			<description>Corner Smooth : 0 to x</description>
+			<type>float</type>
+			<initial>15</initial>
+			<uniform>cornersmooth</uniform>
+		</param>
+		<param>
+			<name>Corner Size</name>
+			<description>Corner Size : 0 to x</description>
+			<type>float</type>
+			<initial>10</initial>
+			<uniform>cornersize</uniform>
+		</param>
+	</parameters>
+</c2effect>

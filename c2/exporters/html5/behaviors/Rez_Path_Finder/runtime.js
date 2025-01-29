@@ -1,0 +1,277 @@
+﻿// ECMAScript 5 strict mode
+"use strict";
+
+assert2(cr, "cr namespace not created");
+assert2(cr.behaviors, "cr.behaviors not created");
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.RezPathfinder = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.RezPathfinder.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+	
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+	
+	behinstProto.findPath = function(start, destination, h)
+	{
+		//if (this.index != -1 && this.astarExists)
+		if (this.astar)
+		{
+			return this.astar.findPath(start, destination, this.directions, h);
+		}
+		else
+		{
+			return [];
+		};
+	};
+
+	behinstProto.onCreate = function()
+	{
+		var type, i, length;
+	
+		// Load properties
+		this.myProperty = this.properties[0];
+		
+		// Variables
+		this.debug = 0;
+		this.astarExists = false;
+		this.astar = null;
+		this.blockSelf = false;
+		this.directions = 8;
+		this.h = 0;
+		this.showError = true;
+		this.connected = false;
+		
+		this.position = 0;
+		
+		this.px = this.inst.y;
+		this.py = this.inst.x;
+		
+		this.path = [];
+	};
+
+	behinstProto.tick = function ()
+	{
+		var dt = this.runtime.getDt(this.inst);
+		
+		if (this.blockSelf && this.astar)
+		{
+			this.astar.setMap(this.px, this.py, 0); // Unblock previous position on map
+		
+			this.px = this.inst.x;
+			this.py = this.inst.y;
+		
+			this.astar.setMap(this.px, this.py, 1); // Block current position on map
+		
+			this.inst.set_bbox_changed();
+			this.inst.update_bbox();
+		};
+		
+		if (!this.astar && this.showError) {
+			alert(this.inst.toString() + " is not associated with an Astar object.");
+			this.showError = false; // show error once only.
+		};
+
+		// called every tick for you to update this.inst as necessary
+		// dt is the amount of time passed since the last tick, in case it's a movement
+	};
+
+	//////////////////////////////////////
+	// Conditions
+	behaviorProto.cnds = {};
+	var cnds = behaviorProto.cnds;
+
+	//////////////////////////////////////
+	// Actions
+	behaviorProto.acts = {};
+	var acts = behaviorProto.acts;
+
+	acts.Setup = function (astar_objs)
+	{	
+        var astar = astar_objs.instances[0];
+		
+        if (astar.check_name == "ASTAR")
+            this.astar = astar;
+        else
+            alert ("Pathfinder behavior should connect to an Astar plugin");
+	}; 
+	
+	acts.FindPath = function (sx, sy, dx, dy, diag, h)
+	{
+		var ts;
+		
+		this.h = h;
+		
+		if (this.astar)
+		{
+			if (diag == 0)
+				this.directions = 8;
+			else
+				this.directions = 4;
+			
+			ts = this.astar.ts;
+		
+			sx = Math.round(sx / ts);
+			sy = Math.round(sy / ts);
+		
+			dx = Math.round(dx / ts);
+			dy = Math.round(dy / ts);
+		
+			this.path = this.findPath([sx, sy], [dx, dy], h);
+		}
+		else
+		{
+			this.path = [];
+		};
+	};
+	
+	acts.ClearPath = function () // Simple utility action.
+	{
+		this.path = [];
+	};
+	
+	acts.ResetPosition = function () // Resets the automated position.
+	{
+		this.position = 0;
+	};
+	
+	acts.NextPosition = function () // Adds one to the position.
+	{
+		if (this.path.length > 0)
+		{
+			this.position += 1;
+			this.position = cr.clamp(this.position, 0, this.path.length - 1);
+		}
+		else
+		{
+			this.position = 0;
+		};
+	};
+	
+	acts.RecalculatePath = function (pos) // Test action that re-calculates the path using first and last positions.
+	{
+		var x1, x2, y1, y2, ts;
+	
+		pos = cr.clamp(pos, 0, this.path.length - 1);
+	
+		if (this.path != [])
+		{
+			var l = this.path.length - 1;
+			
+			ts = this.astar.ts;
+			
+			x1 = Math.round(this.path[pos].x / ts);
+			y1 = Math.round(this.path[pos].y / ts);
+			x2 = Math.round(this.path[l].x / ts);
+			y2 = Math.round(this.path[l].y / ts);
+			
+			this.path = this.findPath([x1, y1], [x2, y2], this.h);
+		};
+	};
+
+	//////////////////////////////////////
+	// Expressions
+	behaviorProto.exps = {};
+	var exps = behaviorProto.exps;
+	
+	exps.PathX = function (ret, position)
+	{
+		var ts, pos;
+		
+		pos = cr.clamp(position, 0, this.path.length - 1);
+		
+		ts = this.astar.ts;
+		
+		if (this.path.length != [] && this.astar.map[this.path[pos].x][this.path[pos].y] == 0)
+		{
+			ret.set_int(Math.round(this.path[pos].x * ts));
+		}
+		else
+		{
+			ret.set_int(this.inst.x);
+		};
+	};
+	
+	exps.PathY = function (ret, position)
+	{
+		var ts, pos;
+		
+		pos = cr.clamp(position, 0, this.path.length - 1);
+		
+		ts = this.astar.ts;
+		
+		if (this.path.length != 0 && this.astar.map[this.path[pos].x][this.path[pos].y] == 0)
+		{
+			ret.set_int(Math.round(this.path[pos].y * ts));
+		}
+		else
+		{
+			ret.set_int(this.inst.y);
+		};
+	};
+	
+	exps.InPathX = function (ret)
+	{
+		var ts;
+		
+		if (this.path.length > 0)
+		{
+			ts = this.astar.ts;
+			ret.set_int(Math.round(this.path[this.position].x * ts));	
+		}
+		else
+		{
+			ret.set_int(this.inst.x);
+		};
+	};
+	
+	exps.InPathY = function (ret)
+	{
+		var ts;
+		
+		if (this.path.length > 0)
+		{
+			ts = this.astar.ts;
+			ret.set_int(Math.round(this.path[this.position].y * ts));	
+		}
+		else
+		{
+			ret.set_int(this.inst.y);
+		};
+	};
+	
+	exps.PathLength = function (ret)
+	{
+		if (this.path) {ret.set_int(this.path.length - 1)} else {ret.set_int(0)};
+	};	
+}());

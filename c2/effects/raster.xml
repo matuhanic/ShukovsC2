@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>raster</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Raster Fx</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Old Amiga or ST Raster bar fx</description>
+	<author>Gigatron</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+	
+	
+	<param>
+			<name>Red Raster Size</name>
+			<description>Red Raster Size</description>
+			<type>Float</type>
+			<initial>0.5</initial>
+			<uniform>red_raster_size</uniform>
+		</param>
+	<param>
+			<name>Green Raster Size</name>
+			<description>Green Raster Size</description>
+			<type>Float</type>
+			<initial>0.5</initial>
+			<uniform>green_raster_size</uniform>
+		</param>
+		
+		<param>
+			<name>Blue Raster Size</name>
+			<description>Blue Raster Size</description>
+			<type>Float</type>
+			<initial>0.5</initial>
+			<uniform>blue_raster_size</uniform>
+		</param>
+		<param>
+			<name>All Raster Size</name>
+			<description>All Raster Size</description>
+			<type>Float</type>
+			<initial>0.5</initial>
+			<uniform>allsize</uniform>
+		</param>
+		
+	
+	<param>
+			<name>Speed</name>
+			<description>Speed Rasters</description>
+			<type>Float</type>
+			<initial>0.5</initial>
+			<uniform>speed</uniform>
+		</param>
+		
+		<param>
+			<name>Amplitude</name>
+			<description>Sinus Amplitude</description>
+			<type>Float</type>
+			<initial>2.0</initial>
+			<uniform>amp</uniform>
+		</param>
+		
+		<param>
+			<name>Frequency</name>
+			<description>Sinus Frequency</description>
+			<type>Float</type>
+			<initial>2.0</initial>
+			<uniform>freq</uniform>
+		</param>
+		<param>
+			<name>Red Raster On</name>
+			<description>Enable 1; Disable 0; Red Raster Visibility</description>
+			<type>Float</type>
+			<initial>1.0</initial>
+			<uniform>red_raster_on</uniform>
+		</param>
+		<param>
+			<name>Green Raster On</name>
+			<description>Enable 1; Disable 0; Green Raster Visibility</description>
+			<type>Float</type>
+			<initial>1.0</initial>
+			<uniform>green_raster_on</uniform>
+		</param>
+		<param>
+			<name>Blue Raster On</name>
+			<description>Enable 1; Disable 0; Blue Raster Visibility</description>
+			<type>Float</type>
+			<initial>1.0</initial>
+			<uniform>blue_raster_on</uniform>
+		</param>
+		 
+	</parameters>
+	
+</c2effect>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>tunnelmask</id>	<!-- Never change the ID.  Change the name instead -->
+	<name>Tunnel Mask</name>
+	<category>GamesWarp</category>
+	<description>Basic tunnel effect</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>X-Coord</name>
+			<description>X coord of mouse point. Remember to use "Mouse.X" if dependent on mouse location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseX</uniform>
+		</param>
+		<param>
+			<name>Y-Coord</name>
+			<description>Y coord of mouse point. Remember to use "LayoutHeight - Mouse.Y" if dependent on mouse location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseY</uniform>
+		</param>
+		<param>
+			<name>Spirals</name>
+			<description>Number of spiral pairs making up tunnel (use 1 to 50)</description>
+			<type>float</type>
+			<initial>3.0</initial>
+			<uniform>spirals</uniform>
+		</param>
+		<param>
+			<name>Speed</name>
+			<description>Speed of tunnel spin (use -50 to 50; 50 is slowest; sign governs inward or outward movement)</description>
+			<type>float</type>
+			<initial>25.0</initial>
+			<uniform>speed</uniform>
+		</param>
+		<param>
+			<name>Intensity</name>
+			<description>Intensity of colors (use 0 to 50; 0 gives dark shadows)</description>
+			<type>float</type>
+			<initial>25.0</initial>
+			<uniform>intensity</uniform>
+		</param>
+		<param>
+			<name>Spiral A - Red</name>
+			<description>Red element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>ARed</uniform>
+		</param>
+		<param>
+			<name>Spiral A - Green</name>
+			<description>Green element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>0.0</initial>
+			<uniform>AGreen</uniform>
+		</param>
+		<param>
+			<name>Spiral A - Blue</name>
+			<description>Blue element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>0.0</initial>
+			<uniform>ABlue</uniform>
+		</param>
+		<param>
+			<name>Spiral B - Red</name>
+			<description>Red element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>BRed</uniform>
+		</param>
+		<param>
+			<name>Spiral B - Green</name>
+			<description>Green element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>BGreen</uniform>
+		</param>
+		<param>
+			<name>Spiral B - Blue</name>
+			<description>Blue element for Spiral A (range from 0 to 1)</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>BBlue</uniform>
+		</param>
+	</parameters>
+</c2effect>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2addon>
+	<type>plugin</type>
+	<name>{{fname}}</name>
+	<version>{{fversion}}</version>
+	<author>{{author}}</author>
+	<website>{{website}}</website>
+	<documentation>{{documentation}}</documentation>
+	<description>{{description}}</description>
+</c2addon>

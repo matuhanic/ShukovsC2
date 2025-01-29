@@ -1,0 +1,178 @@
+﻿function GetBehaviorSettings()
+{
+	return {
+		"name":			"MessageBox",			// as appears in 'add behavior' dialog, can be changed as long as "id" stays the same
+		"id":			"MessageBox",			// this is used to identify this behavior and is saved to the project; never change it
+		"version":		"1.0.43",					// (float in x.y format) Behavior version - C2 shows compatibility warnings based on this
+		"description":	"show and hide message box",
+		"author":		"cranberrygame",
+		"help url":		"http://cranberrygame.github.io/",
+		"category":		"Html5",				// Prefer to re-use existing categories, but you can set anything here
+		"flags":		0						// uncomment lines to enable flags...
+					//	| bf_onlyone			// can only be added once to an object, e.g. solid
+	};
+};
+
+////////////////////////////////////////
+// Parameter types:
+// AddNumberParam(label, description [, initial_string = "0"])			// a number
+// AddStringParam(label, description [, initial_string = "\"\""])		// a string
+// AddAnyTypeParam(label, description [, initial_string = "0"])			// accepts either a number or string
+// AddCmpParam(label, description)										// combo with equal, not equal, less, etc.
+// AddComboParamOption(text)											// (repeat before "AddComboParam" to add combo items)
+// AddComboParam(label, description [, initial_selection = 0])			// a dropdown list parameter
+// AddObjectParam(label, description)									// a button to click and pick an object type
+// AddLayerParam(label, description)									// accepts either a layer number or name (string)
+// AddLayoutParam(label, description)									// a dropdown list with all project layouts
+// AddKeybParam(label, description)										// a button to click and press a key (returns a VK)
+// AddAudioFileParam(label, description)								// a dropdown list with all imported project audio files
+
+////////////////////////////////////////
+// Conditions
+
+// AddCondition(id,					// any positive integer to uniquely identify this condition
+//				flags,				// (see docs) cf_none, cf_trigger, cf_fake_trigger, cf_static, cf_not_invertible,
+//									// cf_deprecated, cf_incompatible_with_triggers, cf_looping
+//				list_name,			// appears in event wizard list
+//				category,			// category in event wizard list
+//				display_str,		// as appears in event sheet - use {0}, {1} for parameters and also <b></b>, <i></i>, and {my} for the current behavior icon & name
+//				description,		// appears in event wizard dialog when selected
+//				script_name);		// corresponding runtime function name
+/*				
+// example				
+AddCondition(0, cf_none, "Is moving", "My category", "{my} is moving", "Description for my condition!", "IsMoving");
+//
+AddCondition(1, cf_trigger, "On write text succeeded", "My category", "On write text succeeded", "Description for my condition!", "OnWriteTextSucceeded");//cranberrygame
+AddCondition(2, cf_trigger, "On write text failed", "My category", "On write text failed", "Description for my condition!", "OnWriteTextFailed");//cranberrygame
+AddNumberParam("Number", "Enter a number to test if positive.");
+AddCondition(3, cf_none, "Is number positive", "My category", "{0} is positive", "Description for my condition!", "IsNumberPositive");
+//
+AddCondition(4, cf_looping, "For each element", "For Each", "For each element", "Repeat the event for each element in the array.", "ArrForEach");
+*/
+//cranberrygame start
+AddCondition(0, cf_none, "Is showing", "My category", "Is showing", "Description for my condition!", "IsShowing");
+//cranberrygame end
+
+////////////////////////////////////////
+// Actions
+
+// AddAction(id,				// any positive integer to uniquely identify this action
+//			 flags,				// (see docs) af_none, af_deprecated
+//			 list_name,			// appears in event wizard list
+//			 category,			// category in event wizard list
+//			 display_str,		// as appears in event sheet - use {0}, {1} for parameters and also <b></b>, <i></i>
+//			 description,		// appears in event wizard dialog when selected
+//			 script_name);		// corresponding runtime function name
+/*
+// example
+AddAction(0, af_none, "Stop", "My category", "{my} Stop", "Description for my action!", "Stop");
+//
+AddStringParam("Message", "Enter a string to alert.");
+AddAction(1, af_none, "Alert", "My category", "Alert {0}", "Description for my action!", "MyAction");
+AddAction(2, af_none, "Trigger Action", "My category", "Trigger Action", "Trigger TriggerCondition", "TriggerAction");//cranberrygame
+AddStringParam("URL", "Enter URL to open.");
+AddComboParamOption("No");
+AddComboParamOption("Yes");
+AddComboParam("Location bar", "Select Yes or No.", 1);
+AddAction(3, af_none, "Open", "My category", "Open {0}", "Description for my action!", "Open");
+*/
+//cranberrygame start
+AddAction(0, af_none, "Show", "My category", "{my} Show", "Description for my action!", "Show");
+AddAction(1, af_none, "Hide", "My category", "{my} Hide", "Description for my action!", "Hide");
+AddLayerParam("Layer", "The layer name or number.");
+AddAction(2, af_none, "Add toggle opacity layer", "My category", "Add toggle opacity layer <b>{0}</b>", "Description for my action!", "AddToggleOpacityLayer");
+AddAction(3, af_none, "Set toggle opacity layers 30 manually", "My category", "Set toggle opacity layers 30 manually", "Description for my action!", "SetToggleOpacityLayers30Manually");
+AddAction(4, af_none, "Set toggle opacity layers 100 manually", "My category", "Set toggle opacity layers 100 manually", "Description for my action!", "SetToggleOpacityLayers100Manually");
+//cranberrygame end
+
+////////////////////////////////////////
+// Expressions
+
+// AddExpression(id,			// any positive integer to uniquely identify this expression
+//				 flags,			// (see docs) ef_none, ef_deprecated, ef_return_number, ef_return_string,
+//								// ef_return_any, ef_variadic_parameters (one return flag must be specified)
+//				 list_name,		// currently ignored, but set as if appeared in event wizard
+//				 category,		// category in expressions panel
+//				 exp_name,		// the expression name after the dot, e.g. "foo" for "myobject.foo" - also the runtime function name
+//				 description);	// description in expressions panel
+/*
+// example
+AddExpression(0, ef_return_number, "Leet expression", "My category", "MyExpression", "Return the number 1337.");
+//
+AddExpression(0, ef_return_number, "Get cell x count", "My category", "CellXCount", "Get cell x count."); //cranberrygame
+AddExpression(1, ef_return_string, "Get text.", "My category", "TextWithNoParam", "Get text."); //cranberrygame
+AddStringParam("StringParam", "Enter string param");
+AddExpression(2, ef_return_string, "Get text.", "My category", "Text", "Get text."); //cranberrygame
+//
+AddExpression(3, ef_return_any, "Current Value", "For Each", "CurValue", "Get the current value in a For Each loop.");
+AddNumberParam("X", "The X index (0-based) of the array value to get.", "0");
+AddExpression(4, ef_return_any | ef_variadic_parameters, "Get value at", "Array", "At", "Get value from the array.  Add second or third parameters to specify Y and Z indices.");
+AddExpression(5, ef_return_number, "Get width", "Array", "Width", "Get the number of elements on the X axis of the array.");
+*/
+//cranberrygame start
+//cranberrygame end
+
+////////////////////////////////////////
+ACESDone();
+
+////////////////////////////////////////
+// Array of property grid properties for this plugin
+// new cr.Property(ept_integer,		name,	initial_value,	description)		// an integer value
+// new cr.Property(ept_float,		name,	initial_value,	description)		// a float value
+// new cr.Property(ept_text,		name,	initial_value,	description)		// a string
+// new cr.Property(ept_combo,		name,	"Item 1",		description, "Item 1|Item 2|Item 3")	// a dropdown list (initial_value is string of initially selected item)
+
+var property_list = [
+/*
+	new cr.Property(ept_integer, 	"My property",		77,		"An example property.")
+*/	
+//cranberrygame start
+//cranberrygame emd	
+	];
+	
+// Called by IDE when a new behavior type is to be created
+function CreateIDEBehaviorType()
+{
+	return new IDEBehaviorType();
+}
+
+// Class representing a behavior type in the IDE
+function IDEBehaviorType()
+{
+	assert2(this instanceof arguments.callee, "Constructor called as a function");
+}
+
+// Called by IDE when a new behavior instance of this type is to be created
+IDEBehaviorType.prototype.CreateInstance = function(instance)
+{
+	return new IDEInstance(instance, this);
+}
+
+// Class representing an individual instance of the behavior in the IDE
+function IDEInstance(instance, type)
+{
+	assert2(this instanceof arguments.callee, "Constructor called as a function");
+	
+	// Save the constructor parameters
+	this.instance = instance;
+	this.type = type;
+	
+	// Set the default property values from the property table
+	this.properties = {};
+	
+	for (var i = 0; i < property_list.length; i++)
+		this.properties[property_list[i].name] = property_list[i].initial_value;
+		
+	// any other properties here, e.g...
+	// this.myValue = 0;
+}
+
+// Called by the IDE after all initialization on this instance has been completed
+IDEInstance.prototype.OnCreate = function()
+{
+}
+
+// Called by the IDE after a property has been changed
+IDEInstance.prototype.OnPropertyChanged = function(property_name)
+{
+}

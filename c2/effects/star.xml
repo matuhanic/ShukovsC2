@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>star</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Star Nest FX</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Space Stars Scroll</description>
+	<author>Gigatron</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+	
+	
+	<param>
+			<name>Speed of Scroll</name>
+			<description>Speed of Scroll</description>
+			<type>Float</type>
+			<initial>0.01</initial>
+			<uniform>scroll_speed</uniform>
+		</param>
+
+	<param>
+			<name>Formula Parameter</name>
+			<description>Formula Parameter</description>
+			<type>float</type>
+			<initial>0.530</initial>
+			<uniform>formuparam</uniform>
+		</param>
+	<param>
+			<name>Step Size</name>
+			<description>Step Size</description>
+			<type>float</type>
+			<initial>0.120</initial>
+			<uniform>stepsize</uniform>
+		</param>
+		<param>
+			<name>Zoom Size</name>
+			<description>Zoom Size</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>zoom</uniform>
+		</param>
+	<param>
+			<name>Tile</name>
+			<description>Tile</description>
+			<type>float</type>
+			<initial>0.850</initial>
+			<uniform>tile</uniform>
+		</param>
+ 	<param>
+			<name>Darkmatter</name>
+			<description>Darkmatter</description>
+			<type>float</type>
+			<initial>0.400</initial>
+			<uniform>darkmatter</uniform>
+		</param>
+	<param>
+			<name>Darkmatter Factor</name>
+			<description>Darkmatter Factor</description>
+			<type>float</type>
+			<initial>0.001</initial>
+			<uniform>darkmatterfactor</uniform>
+		</param>	
+	<param>
+			<name>Distance Fading</name>
+			<description>Distance Fading</description>
+			<type>float</type>
+			<initial>0.760</initial>
+			<uniform>distfading</uniform>
+		</param>
+	<param>
+			<name>Saturation</name>
+			<description>Saturation</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>saturation</uniform>
+		</param>
+	<param>
+			<name>Brightness</name>
+			<description>Brightness</description>
+			<type>float</type>
+			<initial>0.0015</initial>
+			<uniform>brightness</uniform>
+		</param>
+	<param>
+			<name>Contrast</name>
+			<description>Contrast</description>
+			<type>float</type>
+			<initial>2.0</initial>
+			<uniform>contrast</uniform>
+		</param>		 
+		 
+	</parameters>
+	
+</c2effect>

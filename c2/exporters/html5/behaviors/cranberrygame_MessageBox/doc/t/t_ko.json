@@ -1,0 +1,12 @@
+{
+	"c2dictionary":true,
+	"data":{
+	   "your_score_is_prefix":"당신의 점수는 ",
+	   "your_score_is_postfix":" 입니다.",
+	   "you_succeeded_in_level_prefix":"",
+	   "you_succeeded_in_level_postfix":" 레벨에 성공하였습니다.",
+	   "you_failed_in_level_prefix":"",
+	   "you_failed_in_level_postfix":" 레벨에 실패하였습니다."
+	   
+	}
+}

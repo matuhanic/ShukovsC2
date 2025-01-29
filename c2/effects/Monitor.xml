@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Monitor</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Monitor</name>
+	<category>Color</category>
+	<description>Simulate a single color monitor with adjustable dynamic range</description>
+	<author>Somebody</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Red</name>
+			<description>Red color component</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>red</uniform>
+		</param>
+		<param>
+			<name>Green</name>
+			<description>Green color component</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>green</uniform>
+		</param>
+		<param>
+			<name>Blue</name>
+			<description>Blue color component</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>blue</uniform>
+		</param>
+		<param>
+			<name>Dynamic range</name>
+			<description>Perceived dynamic range of the monitor as a percentage</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>drange</uniform>
+		</param>
+	</parameters>
+</c2effect>

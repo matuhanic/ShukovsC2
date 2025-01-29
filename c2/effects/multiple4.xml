@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>multiple4</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Multiple Fx4</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Multiple Glsls Fx Plasma Comiplation</description>
+	<author>Gigatron</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+	
+	
+	<param>
+			<name>Select FX</name>
+			<description>Select Fx from 0 to 4	</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>select_fx</uniform>
+	</param>
+	<param>
+			<name>Speed</name>
+			<description>Speed Of FX</description>
+			<type>percent</type>
+			<initial>1.0</initial>
+			<uniform>speed</uniform>
+	</param>
+		 
+	</parameters>
+	
+</c2effect>

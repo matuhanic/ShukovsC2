@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Mikal_Clouds</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Clouds</name>
+	<category>Color</category>
+	<description>Procedural clouds, ported from https://blog.demofox.org/2017/11/26/dissecting-tiny-clouds/.</description>
+	<author>Mikal</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+   <parameters>
+      <param>
+         <name>screen-resolution-x</name>
+         <description>Clouds parameter.</description>
+         <initial>0.3</initial>
+         <type>float</type>
+         <uniform>screenResolutionX</uniform>
+      </param>
+      <param>
+         <name>screen-resolution-y</name>
+         <description>Clouds parameter.</description>
+         <initial>0.3</initial>
+         <type>float</type>
+         <uniform>screenResolutionY</uniform>
+      </param>
+      <param>
+         <name>i-Mouse-x</name>
+         <description>Reserved - Clouds parameter.</description>
+         <initial>1</initial>
+         <type>float</type>
+         <uniform>iMouseX</uniform>
+      </param>
+      <param>
+         <name>i-Mouse-Y</name>
+         <description>Reserved - Clouds parameter.</description>
+         <initial>1</initial>
+         <type>float</type>
+         <uniform>iMouseY</uniform>
+      </param>
+      <param>
+         <name>height-offset</name>
+         <description>Clouds parameter.</description>
+         <initial>1.0</initial>
+         <type>float</type>
+         <uniform>heightOffset</uniform>
+      </param>
+      <param>
+         <name>time-scale</name>
+         <description>Clouds parameter.</description>
+         <initial>1.0</initial>
+         <type>float</type>
+         <uniform>timeScale</uniform>
+      </param>
+      <param>
+         <name>direction-x</name>
+         <description>Clouds parameter.</description>
+         <initial>0.8</initial>
+         <type>float</type>
+         <uniform>directionX</uniform>
+      </param>
+      <param>
+         <name>direction-y</name>
+         <description>Clouds parameter.</description>
+         <initial>0.8</initial>
+         <type>float</type>
+         <uniform>directionY</uniform>
+      </param>
+      <param>
+         <name>direction-z</name>
+         <description>Clouds parameter.</description>
+         <initial>0.8</initial>
+         <type>float</type>
+         <uniform>directionZ</uniform>
+      </param>
+      <param>
+         <name>noise-scale-set</name>
+         <description>Clouds parameter.</description>
+         <initial>0.5</initial>
+         <type>float</type>
+         <uniform>noiseScaleSet</uniform>
+      </param>
+      <param>
+         <name>sky-color-r</name>
+         <description>Clouds parameter.</description>
+         <initial>0.6</initial>
+         <type>float</type>
+         <uniform>skyColorR</uniform>
+      </param>
+      <param>
+         <name>sky-color-g</name>
+         <description>Clouds parameter.</description>
+         <initial>0.7</initial>
+         <type>float</type>
+         <uniform>skyColorG</uniform>
+      </param>
+      <param>
+         <name>sky-color-b</name>
+         <description>Clouds parameter.</description>
+         <initial>0.8</initial>
+         <type>float</type>
+         <uniform>skyColorB</uniform>
+      </param>
+   </parameters>
+</c2effect>

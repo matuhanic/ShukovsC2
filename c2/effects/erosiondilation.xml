@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<id>erosiondilation</id>
+	<name>Erosion and Dilation</name>
+	<category>Color</category>
+	<description>Erosion and Dilation Filter</description>
+	<author>oppenheimer</author>
+
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	<blends-background>true</blends-background>
+	<cross-sampling>false</cross-sampling>
+	<animated>false</animated>
+	
+	<parameters>
+		<param>
+			<name>Mode</name>
+			<description>[0.0]=Erosion; [1.0]=Dilation;</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>mode</uniform>
+		</param>	
+		<param>
+			<name>Steps X</name>
+			<description>Horizontal kernel steps. Limited to 10 steps in each direction.</description>
+			<type>float</type>
+			<initial>2</initial>
+			<uniform>stepsX</uniform>
+		</param>
+		<param>
+			<name>Steps Y</name>
+			<description>Vertical kernel steps. Limited to 10 steps in each direction.</description>
+			<type>float</type>
+			<initial>2</initial>
+			<uniform>stepsY</uniform>
+		</param>	
+		<param>
+			<name>Pixel X</name>
+			<description>Horizontal pixel multiplier. Default = 1.0; Weakens or strengthens the effect without touching the kernel size. </description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>pX</uniform>
+		</param>
+		<param>
+			<name>Pixel Y</name>
+			<description>Vertical pixel multiplier. Default = 1.0; Weakens or strengthens the effect without touching the kernel size.</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>pY</uniform>
+		</param>	
+		<param>
+			<name>Intensity</name>
+			<description>Final mix</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>intensity</uniform>
+		</param>
+	</parameters>
+	
+</c2effect>

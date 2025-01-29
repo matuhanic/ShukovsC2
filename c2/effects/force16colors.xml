@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>force16colors</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Force 16 Color Palette</name>		<!-- The displayed name of the effect -->
+	<category>Color</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Force a custom 16 color palette</description>
+	<author>AndreYin</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<!-- An example parameter, with the following tags:
+			name: the displayed name of the parameter
+			description: appears at the bottom of the properties bar when selected
+			type: either float or percent.  Percent is just a float but displayed x 100.
+			initial: initial value of the parameter
+			uniform: name of the corresponding uniform variable in the .fx file.
+			
+			You can add as many parameters as you like.
+		-->
+		<param>
+			<name>BRIGHTNESS</name>
+			<description>BRIGHTNESS Factor</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>BRIGHTNESS</uniform>
+		</param>
+		<param>
+			<name>Color 1 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR1R</uniform>
+		</param>
+		<param>
+			<name>Color 1 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR1G</uniform>
+		</param>
+		<param>
+			<name>Color 1 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR1B</uniform>
+		</param>
+		<param>
+			<name>Color 2 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>126</initial>
+			<uniform>COLOR2R</uniform>
+		</param>
+		<param>
+			<name>Color 2 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>37</initial>
+			<uniform>COLOR2G</uniform>
+		</param>
+		<param>
+			<name>Color 2 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>83</initial>
+			<uniform>COLOR2B</uniform>
+		</param>
+		<param>
+			<name>Color 3 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR3R</uniform>
+		</param>
+		<param>
+			<name>Color 3 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR3G</uniform>
+		</param>
+		<param>
+			<name>Color 3 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>77</initial>
+			<uniform>COLOR3B</uniform>
+		</param>
+		<param>
+			<name>Color 4 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR4R</uniform>
+		</param>
+		<param>
+			<name>Color 4 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>119</initial>
+			<uniform>COLOR4G</uniform>
+		</param>
+		<param>
+			<name>Color 4 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>168</initial>
+			<uniform>COLOR4B</uniform>
+		</param>
+		<param>
+			<name>Color 5 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR5R</uniform>
+		</param>
+		<param>
+			<name>Color 5 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>204</initial>
+			<uniform>COLOR5G</uniform>
+		</param>
+		<param>
+			<name>Color 5 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>170</initial>
+			<uniform>COLOR5B</uniform>
+		</param>
+		<param>
+			<name>Color 6 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>171</initial>
+			<uniform>COLOR6R</uniform>
+		</param>
+		<param>
+			<name>Color 6 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>82</initial>
+			<uniform>COLOR6G</uniform>
+		</param>
+		<param>
+			<name>Color 6 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>54</initial>
+			<uniform>COLOR6B</uniform>
+		</param>
+		<param>
+			<name>Color 7 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>32</initial>
+			<uniform>COLOR7R</uniform>
+		</param>
+		<param>
+			<name>Color 7 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>51</initial>
+			<uniform>COLOR7G</uniform>
+		</param>
+		<param>
+			<name>Color 7 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>123</initial>
+			<uniform>COLOR7B</uniform>
+		</param>
+		<param>
+			<name>Color 8 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR8R</uniform>
+		</param>
+		<param>
+			<name>Color 8 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>163</initial>
+			<uniform>COLOR8G</uniform>
+		</param>
+		<param>
+			<name>Color 8 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR8B</uniform>
+		</param>
+		<param>
+			<name>Color 9 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>131</initial>
+			<uniform>COLOR9R</uniform>
+		</param>
+		<param>
+			<name>Color 9 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>118</initial>
+			<uniform>COLOR9G</uniform>
+		</param>
+		<param>
+			<name>Color 9 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>156</initial>
+			<uniform>COLOR9B</uniform>
+		</param>
+		<param>
+			<name>Color 10 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR10R</uniform>
+		</param>
+		<param>
+			<name>Color 10 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>231</initial>
+			<uniform>COLOR10G</uniform>
+		</param>
+		<param>
+			<name>Color 10 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>39</initial>
+			<uniform>COLOR10B</uniform>
+		</param>
+		<param>
+			<name>Color 11 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>41</initial>
+			<uniform>COLOR11R</uniform>
+		</param>
+		<param>
+			<name>Color 11 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>173</initial>
+			<uniform>COLOR11G</uniform>
+		</param>
+		<param>
+			<name>Color 11 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR11B</uniform>
+		</param>
+		<param>
+			<name>Color 12 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>69</initial>
+			<uniform>COLOR12R</uniform>
+		</param>
+		<param>
+			<name>Color 12 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>69</initial>
+			<uniform>COLOR12G</uniform>
+		</param>
+		<param>
+			<name>Color 12 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>69</initial>
+			<uniform>COLOR12B</uniform>
+		</param>
+		<param>
+			<name>Color 13 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>194</initial>
+			<uniform>COLOR13R</uniform>
+		</param>
+		<param>
+			<name>Color 13 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>195</initial>
+			<uniform>COLOR13G</uniform>
+		</param>
+		<param>
+			<name>Color 13 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>199</initial>
+			<uniform>COLOR13B</uniform>
+		</param>
+		<param>
+			<name>Color 14 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR14R</uniform>
+		</param>
+		<param>
+			<name>Color 14 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>131</initial>
+			<uniform>COLOR14G</uniform>
+		</param>
+		<param>
+			<name>Color 14 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>49</initial>
+			<uniform>COLOR14B</uniform>
+		</param>
+		
+		<param>
+			<name>Color 15 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>COLOR15R</uniform>
+		</param>
+		<param>
+			<name>Color 15 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>226</initial>
+			<uniform>COLOR15G</uniform>
+		</param>
+		<param>
+			<name>Color 15 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>50</initial>
+			<uniform>COLOR15B</uniform>
+		</param>
+		<param>
+			<name>Color 16 Red</name>
+			<description>Red color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>255</initial>
+			<uniform>COLOR16R</uniform>
+		</param>
+		<param>
+			<name>Color 16 Green</name>
+			<description>Green color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>241</initial>
+			<uniform>COLOR16G</uniform>
+		</param>
+		<param>
+			<name>Color 16 Blue</name>
+			<description>Blue color to replace, from 0 to 255.</description>
+			<type>float</type>
+			<initial>232</initial>
+			<uniform>COLOR16B</uniform>
+		</param>		
+	</parameters>
+	
+</c2effect>

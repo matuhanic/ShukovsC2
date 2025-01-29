@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>texturedtunnel</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Textured Tunnel</name>
+	<category>GamesWarp</category>
+	<description>Textured Tunnel - requires modified Sprite plugin</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>X-Coord</name>
+			<description>X coord of mouse point. Use Mouse.X on mouse location. A logic error is still present, so use -1.0 to center the location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseX</uniform>
+		</param>
+		<param>
+			<name>Y-Coord</name>
+			<description>Y coord of mouse point. Use LayoutHeight - Mouse.Y for mouse location. The Y-Axis is currently reversed in C2. Use -1.0 to center the location</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>mseY</uniform>
+		</param>
+		<param>
+			<name>Speed</name>
+			<description>Speed. Use any value between -1 and +1. Use 0 to stop movement.</description>
+			<type>float</type>
+			<initial>-0.2</initial>
+			<uniform>speed</uniform>
+		</param>
+		<param>
+			<name>Angular Velocity</name>
+			<description>Angular Velocity. Use any value between -1 and +1. Use 0 to stop rotation.</description>
+			<type>float</type>
+			<initial>0.2</initial>
+			<uniform>angvel</uniform>
+		</param>		
+	</parameters>
+</c2effect>

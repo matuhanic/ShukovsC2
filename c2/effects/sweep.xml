@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>oscillatingsweep</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Oscillating Sweep</name>
+	<category>GamesWarp</category>
+	<description>Oscillating Sweep effect</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Sweep Step</name>
+			<description>Sweep Step. For best effect use a value between 0.02 to 50</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>Step</uniform>
+		</param>
+		<param>
+			<name>Sweep Period</name>
+			<description>Sweep Period. For best effect use a value between 1.0 to 5.0</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>Period</uniform>
+		</param>
+		<param>
+			<name>N Direction</name>
+			<description>Sweep to the North. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirN</uniform>
+		</param>
+		<param>
+			<name>S Direction</name>
+			<description>Sweep to the South. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirS</uniform>
+		</param>
+		<param>
+			<name>E Direction</name>
+			<description>Sweep to the East. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirE</uniform>
+		</param>
+		<param>
+			<name>W Direction</name>
+			<description>Sweep to the West. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirW</uniform>
+		</param>
+		<param>
+			<name>NE Direction</name>
+			<description>Sweep to the NorthEast. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirNE</uniform>
+		</param>
+		<param>
+			<name>SE Direction</name>
+			<description>Sweep to the SouthEast. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirSE</uniform>
+		</param>
+		<param>
+			<name>SW Direction</name>
+			<description>Sweep to the SouthWest. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirSW</uniform>
+		</param>
+		<param>
+			<name>NW Direction</name>
+			<description>Sweep to the NorthWest. Set 1 to enable sweep</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>DirNW</uniform>
+		</param>		
+	</parameters>
+</c2effect>

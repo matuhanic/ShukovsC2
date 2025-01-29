@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>matriaxfire2</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Shader Editor</name>		<!-- The displayed name of the effect -->
+	<category>Animated FX</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Shader Editor: Can do Fire, Snow, Magma, Rain, Fog, Gradients, Noise, blasts, lasers...</description>
+	<author>Matriax</author>
+	
+
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>true</cross-sampling>
+	
+		<!-- Set to true if the shader does not modify the opaque areas of the foreground. In other words
+		 any opaque pixels in the original image are output in the same position and still fully opaque.
+		 This is used to optimise the front-to-back renderer's depth pass, since it can still write depth
+		 and skip overdraw for any objects using only shaders which preserve opaqueness. -->
+	<preserves-opaqueness>false</preserves-opaqueness>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<!-- An example parameter, with the following tags:
+			name: the displayed name of the parameter
+			description: appears at the bottom of the properties bar when selected
+			type: either float or percent.  Percent is just a float but displayed x 100.
+			initial: initial value of the parameter
+			uniform: name of the corresponding uniform variable in the .fx file.
+			
+			You can add as many parameters as you like.
+		-->
+		
+
+		<param>
+			<name>Fire Total Noise</name>
+			<description>Noise Total</description>
+			<type>float</type>
+			<initial>4</initial>
+			<uniform>noiseT</uniform>
+		</param>
+
+		<param>
+			<name>Fire vertical propagation</name>
+			<description>Fire vertical propagationn</description>
+			<type>float</type>
+			<initial>2.0</initial>
+			<uniform>fireVP</uniform>
+		</param>
+		
+				<param>
+			<name>Fire Speed A</name>
+			<description>Fire Speed A</description>
+			<type>float</type>
+			<initial>3.0</initial>
+			<uniform>fireSPD1</uniform>
+		</param>
+		
+				<param>
+			<name>Fire Speed B</name>
+			<description>Fire Speed B</description>
+			<type>float</type>
+			<initial>1.25</initial>
+			<uniform>fireSPD2</uniform>
+		</param>
+		
+		<param>
+			<name>Fire Position Y</name>
+			<description>Fire Position Y</description>
+			<type>float</type>
+			<initial>0.25</initial>
+			<uniform>firePOSy</uniform>
+		</param>
+		
+		<param>
+			<name>Fire Size Top</name>
+			<description>Fire Size Top</description>
+			<type>float</type>
+			<initial>1.5</initial>
+			<uniform>fireSizeTop</uniform>
+		</param>
+		
+			<param>
+			<name>Fire Size Bottom</name>
+			<description>Fire Size Bottom</description>
+			<type>float</type>
+			<initial>0.75</initial>
+			<uniform>fireSizeBottom</uniform>
+		</param>
+		
+		
+		
+		
+		
+		
+		
+		
+	<!-- NOISE / GRAIN EFFECT -->
+		<param>
+			<name>Fire Noise Vertical 1</name>
+			<description>Fire Noise Vertical 1</description>
+			<type>float</type>
+			<initial>1.2</initial>
+			<uniform>fireNoiseV1</uniform>
+		</param>
+		
+				<param>
+			<name>Fire Noise Vertical 1</name>
+			<description>Fire Noise Vertical 1</description>
+			<type>float</type>
+			<initial>1.2</initial>
+			<uniform>fireNoiseV2</uniform>
+		</param>
+		
+				<param>
+			<name>Fire Noise Horizontal 1</name>
+			<description>Fire Noise Horizontal 1</description>
+			<type>float</type>
+			<initial>-1.2</initial>
+			<uniform>fireNoiseH1</uniform>
+		</param>
+		
+				<param>
+			<name>Fire Noise Horizontal 2</name>
+			<description>Fire Noise Horizontal 2</description>
+			<type>float</type>
+			<initial>1.6</initial>
+			<uniform>fireNoiseH2</uniform>
+		</param>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+<!-- SIZE -->		
+		<param>
+			<name>Fire Size Width</name>
+			<description>Fire Size Width</description>
+			<type>float</type>
+			<initial>0.25</initial>
+			<uniform>fireSizeW</uniform>
+		</param>
+		<param>
+			<name>Fire Size height</name>
+			<description>Fire Size Height</description>
+			<type>float</type>
+			<initial>1.25</initial>
+			<uniform>fireSizeH</uniform>
+		</param>
+		
+		<param>
+			<name>Fire Size Form</name>
+			<description>Fire Size Form</description>
+			<type>float</type>
+			<initial>16.0</initial>
+			<uniform>fireSizeF</uniform>
+		</param>
+		
+		<param>
+			<name>Fire Quantity</name>
+			<description>Fire Quantity</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>fireQ</uniform>
+		</param>
+		
+		 <param>
+			<name>Flames Separation</name>
+			<description>Flames Separation</description>
+			<type>float</type>
+			<initial>0.5</initial>
+			<uniform>flameS</uniform>
+		</param>
+		
+		
+	
+	
+<!-- FIRE COLOR -->
+			<param>
+			<name>Fire Color Red</name>
+			<description>Fire Color Red</description>
+			<type>float</type>
+			<initial>1.5</initial>
+			<uniform>fireColorR</uniform>
+		</param>
+					<param>
+			<name>Fire Color Green</name>
+			<description>Fire Color Green</description>
+			<type>float</type>
+			<initial>1.5</initial>
+			<uniform>fireColorG</uniform>
+		</param>
+					<param>
+			<name>Fire Color Blue</name>
+			<description>Fire Color Blue</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>fireColorB</uniform>
+		</param>
+
+					<param>
+			<name>Fire Color Red Dark</name>
+			<description>Fire Color Red Dark</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>fireColorRd</uniform>
+		</param>
+					<param>
+			<name>Fire Color Green Dark</name>
+			<description>Fire Color Green Dark</description>
+			<type>float</type>
+			<initial>3.0</initial>
+			<uniform>fireColorGd</uniform>
+		</param>
+					<param>
+			<name>Fire Color Blue Dark</name>
+			<description>Fire Color Blue Dark</description>
+			<type>float</type>
+			<initial>6.0</initial>
+			<uniform>fireColorBd</uniform>
+		</param>
+	
+	
+	
+	
+		<param>
+			<name>Fire Contrast</name>
+			<description>Fire Contrast</description>
+			<type>float</type>
+			<initial>1.5</initial>
+			<uniform>fireContrast</uniform>
+		</param>
+			<param>
+			<name>Fire Intensity</name>
+			<description>Fire Intensity</description>
+			<type>float</type>
+			<initial>4</initial>
+			<uniform>fireIntensity</uniform>
+		</param>
+	
+		<param>
+			<name>Background Modify</name>
+			<description>Background Modify</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>backgM</uniform>
+		</param>
+		
+		<param>
+			<name>Fade Start Y</name>
+			<description>Fade Start Y</description>
+			<type>float</type>
+			<initial>3</initial>
+			<uniform>fadeSP</uniform>
+		</param>
+		
+		<param>
+			<name>OffsetY</name>
+			<description>Offset Y</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>offsetY</uniform>
+		</param>
+		
+		
+		<param>
+			<name>Fade In-OUT Speed</name>
+			<description>Fade In-OUT Speed</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>fadeIOSPD</uniform>
+		</param>
+		
+		
+		
+
+<!-- WARP X/Y -->		
+
+		<param>
+			<name>WarpX Form</name>
+			<description>Warp X Form</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpXform</uniform>
+		</param>
+				<param>
+			<name>WarpX speed</name>
+			<description>Warp X speed</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpXspd</uniform>
+		</param>
+				<param>
+			<name>WarpX Form Y</name>
+			<description>WarpX Form Y</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpXformY</uniform>
+		</param>
+				<param>
+			<name>WarpX Size</name>
+			<description>WarpX Size</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpXsize</uniform>
+		</param>
+		
+		
+		
+		
+		<param>
+			<name>WarpY Form</name>
+			<description>Warp Y Form</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpYform</uniform>
+		</param>
+				<param>
+			<name>WarpY speed</name>
+			<description>Warp Y speed</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpYspd</uniform>
+		</param>
+				<param>
+			<name>WarpY Form X</name>
+			<description>WarpY Form X</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpYformX</uniform>
+		</param>
+				<param>
+			<name>WarpY Size</name>
+			<description>WarpY Size</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>warpYsize</uniform>
+		</param>
+
+
+		<param>
+			<name>Offset X</name>
+			<description>Offset X</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>offsetX</uniform>
+		</param>
+				<param>
+			<name>Fade Start X</name>
+			<description>Fade Start X</description>
+			<type>float</type>
+			<initial>20</initial>
+			<uniform>fadeSPX</uniform>
+		</param>
+
+
+
+		<param>
+			<name>Total Opacity</name>
+			<description>Total Opacity</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>totalOpacity</uniform>
+		</param>
+
+
+		<param>
+			<name>Triangle Fever</name>
+			<description>Triangle Fever</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>triangleFever</uniform>
+		</param>
+		
+		
+
+
+
+
+
+		<param>
+			<name>Deform Opacity</name>
+			<description>Deform Opacity</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>deformOpacity</uniform>
+		</param>
+				<param>
+			<name>Deform X</name>
+			<description>Deform X</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>deformX</uniform>
+		</param>
+				<param>
+			<name>Deform Y</name>
+			<description>Deform Y</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>deformY</uniform>
+		</param>
+				<param>
+			<name>Deform Round</name>
+			<description>Deform Round</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>deformRound</uniform>
+		</param>
+
+
+
+
+
+
+
+
+
+
+
+		
+	
+
+	 	 <param>
+			<name>Seconds</name>
+			<description>seconds</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>seconds</uniform>
+		</param>
+		
+			
+		
+	</parameters>
+	
+</c2effect>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Trim</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Trim</name>
+	<category>Distortion</category>
+	<description>Trim an image to a percentage of its full size</description>
+	<author>Somebody</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Trim Width</name>
+			<description>Start trim from (in % of image width)</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>trimw</uniform>
+		</param>
+		<param>
+			<name>Trim Height</name>
+			<description>Start trim from (in % of image height)</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>trimh</uniform>
+		</param>
+	</parameters>
+</c2effect>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c2effect>
+	<!-- About -->
+	<id>stereoshift3D</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>stereoshift3D</name>
+	<category>Color</category>
+	<description>Horizontaly offset the red and cyan(blue+green) channels for anaglyph effect</description>
+	<author>chrisbrobs</author>
+	
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>-24</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+        <param>
+			<name>redOffset</name>
+			<description>red channel horizontal position.</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>redOffset</uniform>
+		</param>
+		<param>
+			<name>greenBlueOffset</name>
+			<description>green/blue channels horizontal position.</description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>greenBlueOffset</uniform>
+		</param>
+   		<param>
+			<name>gamma</name>
+			<description>adjust the gamma,from 0.0 to 2.0, default 0.8.</description>
+			<type>float</type>
+			<initial>0.8</initial>
+			<uniform>gamma</uniform>
+		</param>
+	</parameters>
+</c2effect>

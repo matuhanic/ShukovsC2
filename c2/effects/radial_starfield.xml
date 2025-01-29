@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>RadialStarfield</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Radial Starfield</name>
+	<category>Advance Effet</category>
+	<description>Radial Starfield</description>
+	<author>Anata</author>
+
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+
+	<blends-background>false</blends-background>
+
+	<cross-sampling>false</cross-sampling>
+	<animated>true</animated>
+
+	<parameters>
+		<param>
+			<name>Angular Segments</name>
+			<description>Number of angular segments</description>
+			<type>float</type>
+			<initial>121.0</initial>
+			<uniform>fSteps</uniform>
+		</param>
+		<param>
+			<name>Fog</name>
+			<description>Fog density</description>
+			<type>float</type>
+			<initial>0.4</initial>
+			<uniform>fDepthFade</uniform>
+		</param>
+		<param>
+			<name>Brightness</name>
+			<description>Starfield brightness</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>fBrightness</uniform>
+		</param>
+		<param>
+			<name>Min Density</name>
+			<description>Minimum Density</description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>fRepeatMin</uniform>
+		</param>
+		<param>
+			<name>Max Density</name>
+			<description>Maximum Density</description>
+			<type>float</type>
+			<initial>8.0</initial>
+			<uniform>fRepeatMax</uniform>
+		</param>
+		<param>
+			<name>Min Distance</name>
+			<description>Min star position radius</description>
+			<type>float</type>
+			<initial>0.8</initial>
+			<uniform>fMinDist</uniform>
+		</param>
+		<param>
+			<name>Max Distance</name>
+			<description>Max star position radius</description>
+			<type>float</type>
+			<initial>5.0</initial>
+			<uniform>fMaxDist</uniform>
+		</param>
+	</parameters>
+</c2effect>

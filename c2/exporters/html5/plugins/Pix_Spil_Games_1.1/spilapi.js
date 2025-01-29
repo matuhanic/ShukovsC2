@@ -1,0 +1,1 @@
+$('head').append('<script src="http://cdn.gameplayer.io/api/js/game.js">' + '<\/script>');

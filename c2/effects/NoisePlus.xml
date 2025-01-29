@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>NoisePlus</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>NoisePlus</name>
+	<category>Color</category>
+	<description>multi noise effects.</description>
+	<author>chrisbrobs</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+		<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>noiseLevel</name>
+			<description>increase noise level,default 2.0</description>
+			<type>float</type>
+			<initial>2.0</initial>
+			<uniform>noiseLevel</uniform>
+		</param>
+				<param>
+			<name>animSpeed</name>
+			<description>Adjust animation speed.NOTE-1 is fastest,Higher values slow it down,Default 1.0. </description>
+			<type>float</type>
+			<initial>1.0</initial>
+			<uniform>animSpeed</uniform>
+		</param>
+	<param>
+			<name>noiseType</name>
+			<description>Choose Noise type,0-basic,1-blocky,2-smooth,3-fractal,4-brownian </description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>noiseType</uniform>
+		</param>
+	</parameters>
+
+
+</c2effect>

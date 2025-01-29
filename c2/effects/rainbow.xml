@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>rainbow</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Plasma Rainbow</name>
+	<category>GamesWarp</category>
+	<description>Plasma Rainbow brings life to your images</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Plasma Speed</name>
+			<description>Speed of plasma. Use values ranging from -20 to 20 for best effect.</description>
+			<type>float</type>
+			<initial>2.0</initial>
+			<uniform>plasmaspeed</uniform>
+		</param>
+		<param>
+			<name>Plasma Brightness</name>
+			<description>Brightness of plasma. Use values ranging from -40 to 240 for best effect.</description>
+			<type>float</type>
+			<initial>40.0</initial>
+			<uniform>plasmaintensity</uniform>
+		</param>		
+	</parameters>
+</c2effect>

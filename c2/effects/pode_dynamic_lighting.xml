@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Pode_Dynamic_Lighting</id>			<!-- A unique ID.  Change this!  Never change the ID after release - change the name instead. -->
+	<name>Dynamic Lighting</name>		<!-- The displayed name of the effect -->
+	<category>Color</category>	<!-- Any category can be used, but try to use one of: Color, Blend, or Distortion -->
+	<description>Apply dynamic lighting to Sprites.</description>
+	<author>JP Deblonde</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp.
+		 Do not set if not strictly necessay!  These options have a performance impact. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (see comments on background sampling in the .fx file) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes by itself over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<!-- An example parameter, with the following tags:
+			name: the displayed name of the parameter
+			description: appears at the bottom of the properties bar when selected
+			type: either float or percent.  Percent is just a float but displayed x 100.
+			initial: initial value of the parameter
+			uniform: name of the corresponding uniform variable in the .fx file.
+			
+			You can add as many parameters as you like.
+		-->
+		  
+		<!--
+		<param>
+			<name>Example parameter</name>
+			<description>An example parameter from the template.</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>exampleParam</uniform>
+		</param>
+		-->
+		<!--<param>
+			<name>Light Direction</name>
+			<description>Vector of the Light Direction (x,y,z)</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>lightDirection</uniform>
+		</param>-->
+		<param>
+			<name>Light Direction (X value)</name>
+			<description>Light Direction Vector Value for X</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>lightDirectionX</uniform>
+		</param>
+
+		<param>
+			<name>Light Direction (Y value)</name>
+			<description>Light Direction Vector Value for Y</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>lightDirectionY</uniform>
+		</param>		
+		<param>
+			<name>Light Direction (Z value)</name>
+			<description>Light Direction Vector Value for Z</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>lightDirectionZ</uniform>
+		</param>			
+		<!--<param>
+			<name>Light Color</name>
+			<description>Vector of the Light Color (r,g,b)</description>
+			<type>float</type>
+			<initial>1</initial>
+			<uniform>lightColor</uniform>
+		</param>-->	
+		<param>
+			<name>Light Color (R value)</name>
+			<description>Light Color (R value)</description>
+			<type>percent</type>
+			<initial>0.5</initial>
+			<uniform>lightColorR</uniform>
+		</param>	
+		<param>
+			<name>Light Color (G value)</name>
+			<description>Light Color (G value)</description>
+			<type>percent</type>
+			<initial>0.5</initial>
+			<uniform>lightColorG</uniform>
+		</param>	
+		<param>
+			<name>Light Color (B value)</name>
+			<description>Light Color (B value)</description>
+			<type>percent</type>
+			<initial>0.5</initial>
+			<uniform>lightColorB</uniform>
+		</param>			
+	</parameters>
+	
+</c2effect>

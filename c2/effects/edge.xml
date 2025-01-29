@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>edgedetection</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Edge Detection</name>
+	<category>GamesWarp</category>
+	<description>Detect the edges of your image and make it glow.</description>
+	<author>GamesWarp Studio</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>25</extend-box-horizontal>
+	<extend-box-vertical>25</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>true</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>Edge Only</name>
+			<description>A value of 0 will show the image and highlighted edges together. Set to 1 to see only the edges. </description>
+			<type>float</type>
+			<initial>0.0</initial>
+			<uniform>EdgeFlag</uniform>
+		</param>	
+		<param>
+			<name>Red Channel</name>
+			<description>Red channel. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>127.0</initial>
+			<uniform>RC</uniform>
+		</param>
+		<param>
+			<name>Green Channel</name>
+			<description>Green channel. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>127.0</initial>
+			<uniform>GC</uniform>
+		</param>
+		<param>
+			<name>Blue Channel</name>
+			<description>Blue channel. Use 0 to 255.</description>
+			<type>float</type>
+			<initial>127.0</initial>
+			<uniform>BC</uniform>
+		</param>		
+	</parameters>
+</c2effect>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>Slotz</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Slotz</name>
+	<category>Color</category>
+	<description>3 Reel Slot machine effect.</description>
+	<author>chrisbrobs</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>true</animated>
+			<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>reelOneSpeed</name>
+			<description>speed of reel 1</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelOneSpeed</uniform>
+		</param>
+				<param>
+			<name>reelTwoSpeed</name>
+			<description>speed of reel 2</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelTwoSpeed</uniform>
+		</param>
+		<param>
+			<name>reelThreeSpeed</name>
+			<description>speed of reel 3</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelThreeSpeed</uniform>
+		</param>
+			<param>
+			<name>reelOneYoffset</name>
+			<description>reel one y offset.0 to 6</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelOneYoffset</uniform>
+		</param>
+					<param>
+			<name>reelTwoYoffset</name>
+			<description>reel two y offset.0 to 6</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelTwoYoffset</uniform>
+		</param>
+							<param>
+			<name>reelThreeYoffset</name>
+			<description>reel three y offset.0 to 6</description>
+			<type>float</type>
+			<initial>0</initial>
+			<uniform>reelThreeYoffset</uniform>
+		</param>
+	</parameters>
+
+	
+</c2effect>

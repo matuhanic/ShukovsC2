@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>barreldistort</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Barreldistort</name>
+	<category>Distortion</category>
+	<description>Expand or contract part of image.</description>
+	<author>chrisbrobs (brad larson bulge mod)</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0.0</extend-box-horizontal>
+	<extend-box-vertical>0.0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>offsetX</name>
+			<description>Xoffset of effect(default 50 = centered).</description>
+			<type>percent</type>
+			<initial>0.5</initial>
+			<uniform>offsetX</uniform>
+		</param>
+		<param>
+			<name>offsetY</name>
+			<description>Yoffset of effect(default 50 = centered).</description>
+			<type>percent</type>
+			<initial>0.5</initial>
+			<uniform>offsetY</uniform>
+		</param>
+		<param>
+			<name>Radius</name>
+			<description>Radius of the effect, from 0 to 100.</description>
+			<type>percent</type>
+			<initial>0.0</initial>
+			<uniform>radius</uniform>
+		</param>
+		<param>
+			<name>Scale</name>
+			<description>Scale of the effect, from -100 to 100.</description>
+			<type>percent</type>
+			<initial>0.0</initial>
+			<uniform>scale</uniform>
+		</param>
+	</parameters>
+</c2effect>

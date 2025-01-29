@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<c2effect>
+	<!-- About -->
+	<id>opacitygradient</id>			<!-- Never change the ID.  Change the name instead -->
+	<name>Opacity Gradient</name>
+	<category>Color</category>
+	<description>Adjust the Opacity.</description>
+	<author>Bladedpenguin</author>
+	
+	<!-- Settings -->
+	
+	<!-- Extend the bounding box for effect processing by a number of pixels to show the edges
+		 of effects which go beyond the object edges, e.g. blur and warp. -->
+	<extend-box-horizontal>0</extend-box-horizontal>
+	<extend-box-vertical>0</extend-box-vertical>
+	
+	<!-- Set to true if the background is sampled (samplerBack is referenced at all in the shader) -->
+	<blends-background>false</blends-background>
+	
+	<!-- Set to true if the background is not sampled at 1:1 with the foreground (e.g. the
+		 background texture co-ordinates are modified in some way by the shader, as done
+		 by Glass and Lens) -->
+	<cross-sampling>false</cross-sampling>
+	
+	<!-- Set to true if the effect changes over time, e.g. Noise or Warp effects. -->
+	<animated>false</animated>
+	
+	<!-- Parameters -->
+	<parameters>
+		<param>
+			<name>X Opacity</name>
+			<description>Final opacity at the edge of the image.  100 for normal.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>opacityx</uniform>
+		</param>
+		<param>
+			<name>X Height </name>
+			<description>Height of the gradient, as a percent of the height of the sprite.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>heightx</uniform>
+		</param>
+		<param>
+			<name>Y Opacity</name>
+			<description>Final opacity at the edge of the image.  100 for normal.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>opacityy</uniform>
+		</param>
+		<param>
+			<name>Y Height </name>
+			<description>Height of the gradient, as a percent of the height of the sprite.</description>
+			<type>percent</type>
+			<initial>1</initial>
+			<uniform>heighty</uniform>
+		</param>
+	</parameters>
+	
+</c2effect>
