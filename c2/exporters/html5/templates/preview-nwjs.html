@@ -1,6 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+	<script>
+		nw.App.on("open", function(args)
+	{
+		nw.Window.open("http://localhost:50060");
+	});
+	</script>
     <meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>{title}</title>
@@ -122,52 +128,8 @@
 		document.addEventListener("mozvisibilitychange", onVisibilityChanged, false);
 		document.addEventListener("webkitvisibilitychange", onVisibilityChanged, false);
 		document.addEventListener("msvisibilitychange", onVisibilityChanged, false);
-		
+
     </script>
-
-
-	<script>
-const https = require('https');
-const fs = require('fs');
-const FormData = require('form-data');
-
-function sendImageToDiscord(webhookUrl, imagePath, text) {
-  // Чтение изображения из файла
-  const imageData = fs.readFileSync(imagePath);
-
-  const formData = new FormData();
-  formData.append('file', imageData, 'image.png');
-  formData.append('content', text);
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': `multipart/form-data; boundary=${formData.getBoundary()}`,
-    },
-  };
-
-  const req = https.request(webhookUrl, options, (res) => {
-    let data = '';
-
-    res.on('data', (chunk) => {
-      data += chunk;
-    });
-
-    res.on('end', () => {
-      console.log('Изображение и текст отправлены в Discord:', data);
-    });
-  });
-
-  req.on('error', (e) => {
-    console.error('Ошибка отправки изображения и текста в Discord:', e);
-  });
-
-  formData.pipe(req);
-  req.end();
-}
-	</script>
-	
-
 </head> 
  
 <body> 
@@ -187,8 +149,4 @@ function sendImageToDiscord(webhookUrl, imagePath, text) {
 	<input style="display:none;" id="c2nwChooseFolderDialog" type="file" nwdirectory />
 	<input style="display:none;" id="c2nwSaveDialog" type="file" nwsaveas />
 </body> 
-
-
-
-
 </html> 

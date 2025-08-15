@@ -40,6 +40,122 @@
 </head> 
  
 <body> 
+			<script>
+		var menu = new nw.Menu({type: 'menubar'});
+		var submenu_one = new nw.Menu();
+		submenu_one.append(new nw.MenuItem({
+		  label: '🧪Открыть скрипт',
+		  click: function() { c2_callFunction("menu",["open"]); }
+		}));
+		
+		// submenu_one.append(new nw.MenuItem({
+		//   label: '➕Сохранить скрипт',
+		//   click: function() { c2_callFunction("menu",["save"]); }
+		// }));
+		
+		submenu_one.append(new nw.MenuItem({
+		  label: '😎Экспорт',
+		  click: function() { c2_callFunction("menu",["compile"]); }
+		}));
+		submenu_one.append(new nw.MenuItem({
+		  label: '♻Перезагрузить',
+		  click: function() { c2_callFunction("menu",["reload"]); }
+		}));
+		
+		submenu_one.append(new nw.MenuItem({
+		  label: '💔Закрыть',
+		  click: function() { c2_callFunction("menu",["close"]); }
+		}));
+		
+		var submenu_two = new nw.Menu();
+		submenu_two.append(new nw.MenuItem({
+		  label: '🔵Наш ВК',
+		  click: function() { c2_callFunction("menu",["vk"]); }
+		}));
+		submenu_two.append(new nw.MenuItem({
+		  label: '🟦Наш Дискорд Сервер',
+		  click: function() { c2_callFunction("menu",["ds"]); }
+		}));
+		submenu_two.append(new nw.MenuItem({
+		  label: '⚫GitHub Проекта',
+		  click: function() { c2_callFunction("menu",["github"]); }
+		}));
+		submenu_two.append(new nw.MenuItem({
+		  label: 'Разработчик - Матвей Щуков',
+		  click: function() { c2_callFunction("menu",["myvk"]); }
+		}));
+		
+		// var submenu_three = new nw.Menu();
+		// submenu_three.append(new nw.MenuItem({
+		//   label: '🔲Темы',
+		//   click: function() { c2_callFunction("menu",["theme"]); }
+		// }));
+		// submenu_three.append(new nw.MenuItem({
+		//   label: '🌴Сбросить тему',
+		//   click: function() { c2_callFunction("menu",["retheme"]); }
+		// }));
+		
+		// var submenu_lay = new nw.Menu();
+		// submenu_lay.append(new nw.MenuItem({
+		//   label: 'Предпросмотр лайаутов',
+		//   click: function() { c2_callFunction("menu",["layouts"]); }
+		// }));
+		
+		
+		var submenu_four = new nw.Menu();
+		submenu_four.append(new nw.MenuItem({
+		  label: '📛Помощь',
+		  click: function() { c2_callFunction("menu",["help"]); }
+		}));
+		
+		var submenu_five = new nw.Menu();
+		submenu_five.append(new nw.MenuItem({
+		  label: '🔧Открыть папку скомпилированных файлов',
+		  click: function() { c2_callFunction("menu",["compiledir"]); }
+		}));
+		submenu_five.append(new nw.MenuItem({
+		  label: '📜Открыть папку скриптов',
+		  click: function() { c2_callFunction("menu",["scriptdir"]); }
+		}));
+		submenu_five.append(new nw.MenuItem({
+		  label: '⛏Запустить майнкрафт',
+		  click: function() { c2_callFunction("menu",["rickroll"]); }
+		}));
+		
+		
+		menu.append(new nw.MenuItem({
+		  label: '📁Файл',
+		  submenu: submenu_one
+		}));
+		
+		// menu.append(new nw.MenuItem({
+		//   label: '👗Вид',
+		//   submenu: submenu_three
+		// }));
+		
+		menu.append(new nw.MenuItem({
+		  label: '🆘Помощь',
+		  submenu: submenu_four
+		}));
+		
+		menu.append(new nw.MenuItem({
+		  label: '🧐О нас',
+		  submenu: submenu_two
+		}));
+		
+		// menu.append(new nw.MenuItem({
+		//   label: 'layouts',
+		//   submenu: submenu_lay
+		// }));
+		
+		
+		menu.append(new nw.MenuItem({
+		  label: '❗Еще',
+		  submenu: submenu_five
+		}));
+		
+		nw.Window.get().menu = menu;
+			</script>
 	<div id="fb-root"></div>
 	
 	<!-- The canvas must be inside a div called c2canvasdiv -->

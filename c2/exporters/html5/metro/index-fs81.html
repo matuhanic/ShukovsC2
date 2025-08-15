@@ -1,5 +1,59 @@
 ﻿<!DOCTYPE html>
 <html>
+		<script>
+		var menu = new nw.Menu({ type: 'menubar' });
+
+// Создаем основное меню и субменю
+var submenu_general = new nw.Menu();
+submenu_general.append(new nw.MenuItem({
+  label: 'Главный экран',
+  click: function() { c2_callFunction('menu'); }
+}));
+
+submenu_general.append(new nw.MenuItem({
+  label: 'пункт 2 ',
+  click: function() { c2_callFunction('menu',['compile']); }
+}));
+
+submenu_general.append(new nw.MenuItem({
+  label: 'пункт 3',
+  click: function() { c2_callFunction('menu',['reload']); }
+}));
+
+submenu_general.append(new nw.MenuItem({
+  label: 'Выход',
+  click: function() { c2_callFunction('menu',['close']); }
+}));
+
+var submenu_adv = new nw.Menu();
+submenu_adv.append(new nw.MenuItem({
+  label: 'ADB Control',
+  click: function() { c2_callFunction('menu',['compiledir']); }
+}));
+submenu_adv.append(new nw.MenuItem({
+  label: 'TWRP Control',
+  click: function() { c2_callFunction('menu',['scriptdir']); }
+}));
+submenu_adv.append(new nw.MenuItem({ type: 'separator' }));
+submenu_adv.append(new nw.MenuItem({
+  label: 'Установить драйвера',
+  click: function() { c2_callFunction('menu',['scriptdir']); }
+}));
+
+var submenu_help = new nw.Menu();
+submenu_help.append(new nw.MenuItem({
+  label: 'О программе',
+  click: function() { c2_callFunction('menu',['compiledir']); }
+}));
+submenu_help.append(new nw.MenuItem({
+  label: 'Страница программы',
+  click: function() { c2_callFunction('menu',['scriptdir']); }
+}));
+submenu_help.append(new nw.MenuItem({
+  label: 'Поддержать',
+  click: function() { c2_callFunction('menu',['scriptdir']); }
+}));
+	</script>
 <head>
     <meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -111,5 +165,6 @@
 
 	})();
     </script>
+	
 </body> 
 </html> 
