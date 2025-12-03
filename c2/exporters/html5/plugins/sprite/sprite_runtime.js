@@ -1,17 +1,22 @@
-﻿﻿"use strict";
+﻿// ECMAScript 5 strict mode
+"use strict";
 
 assert2(cr, "cr namespace not created");
 assert2(cr.plugins_, "cr.plugins_ not created");
 
-cr.plugins_.ShukovsSprite = function(runtime)
+/////////////////////////////////////
+// Plugin class
+cr.plugins_.Sprite = function(runtime)
 {
 	this.runtime = runtime;
 };
 
 (function ()
 {
-	var pluginProto = cr.plugins_.ShukovsSprite.prototype;
+	var pluginProto = cr.plugins_.Sprite.prototype;
 		
+	/////////////////////////////////////
+	// Object type class
 	pluginProto.Type = function(plugin)
 	{
 		this.plugin = plugin;
@@ -24,6 +29,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	{
 		if (this.datauri.length === 0)
 		{		
+			// Get Sprite image as data URI
 			var tmpcanvas = document.createElement("canvas");
 			tmpcanvas.width = this.width;
 			tmpcanvas.height = this.height;
@@ -56,6 +62,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.all_frames = [];
 		this.has_loaded_textures = false;
 		
+		// Load all animation frames
 		for (i = 0, leni = this.animations.length; i < leni; i++)
 		{
 			anim = this.animations[i];
@@ -86,7 +93,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				frameobj.poly_pts = frame[10];
 				frameobj.pixelformat = frame[11];
 				frameobj.spritesheeted = (frameobj.width !== 0);
-				frameobj.datauri = "";
+				frameobj.datauri = "";		// generated on demand and cached
 				frameobj.getDataUri = frame_getDataUri;
 				
 				uv = {};
@@ -98,6 +105,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				
 				frameobj.webGL_texture = null;
 				
+				// Sprite sheets may mean multiple frames reference one image
+				// Ensure image is not created in duplicate
 				wt = this.runtime.findWaitingTexture(frame[0]);
 				
 				if (wt)
@@ -111,6 +120,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					frameobj.texture_img.cr_filesize = frame[1];
 					frameobj.texture_img.c2webGL_texture = null;
 					
+					// Tell runtime to wait on this texture
 					this.runtime.waitForImageLoad(frameobj.texture_img, frame[0]);
 				}
 				
@@ -120,7 +130,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			}
 			
 			cr.seal(animobj);
-			this.animations[i] = animobj;
+			this.animations[i] = animobj;		// swap array data for object
 		}
 	};
 	
@@ -141,6 +151,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			
 		var i, len, frame;
 		
+		// Release all animation frames
 		for (i = 0, len = this.all_frames.length; i < len; ++i)
 		{
 			frame = this.all_frames[i];
@@ -155,11 +166,13 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	typeProto.onRestoreWebGLContext = function ()
 	{
+		// No need to create textures if no instances exist, will create on demand
 		if (this.is_family || !this.instances.length)
 			return;
 			
 		var i, len, frame;
 		
+		// Re-load all animation frames
 		for (i = 0, len = this.all_frames.length; i < len; ++i)
 		{
 			frame = this.all_frames[i];
@@ -188,6 +201,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	typeProto.unloadTextures = function ()
 	{
+		// Don't release textures if any instances still exist, they are probably using them
 		if (this.is_family || this.instances.length || !this.has_loaded_textures)
 			return;
 			
@@ -217,16 +231,20 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			if (already_drawn_images.indexOf(frameimg) !== -1)
 					continue;
 				
+			// draw to preload, browser should lazy load the texture
 			ctx.drawImage(frameimg, 0, 0);
 			already_drawn_images.push(frameimg);
 		}
 	};
 
+	/////////////////////////////////////
+	// Instance class
 	pluginProto.Instance = function(type)
 	{
 		this.type = type;
 		this.runtime = type.runtime;
 		
+		// Physics needs to see the collision poly before onCreate
 		var poly_pts = this.type.animations[0].frames[0].poly_pts;
 		
 		if (this.recycled)
@@ -239,19 +257,20 @@ cr.plugins_.ShukovsSprite = function(runtime)
 
 	instanceProto.onCreate = function()
 	{
-		this.visible = (this.properties[0] === 0);
+		this.visible = (this.properties[0] === 0);	// 0=visible, 1=invisible
 		this.isTicking = false;
 		this.inAnimTrigger = false;
-		this.collisionsEnabled = (this.properties[5] !== 0);
+		this.collisionsEnabled = (this.properties[3] !== 0);
 		
-		this.cur_animation = this.getAnimationByName(this.properties[3]) || this.type.animations[0];
-		this.cur_frame = this.properties[4];
+		this.cur_animation = this.getAnimationByName(this.properties[1]) || this.type.animations[0];
+		this.cur_frame = this.properties[2];
 		
 		if (this.cur_frame < 0)
 			this.cur_frame = 0;
 		if (this.cur_frame >= this.cur_animation.frames.length)
 			this.cur_frame = this.cur_animation.frames.length - 1;
 			
+		// Update poly and hotspot for the starting frame.
 		var curanimframe = this.cur_animation.frames[this.cur_frame];
 		this.collision_poly.set_pts(curanimframe.poly_pts);
 		this.hotspotX = curanimframe.hotspotX;
@@ -260,6 +279,9 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.cur_anim_speed = this.cur_animation.speed;
 		this.cur_anim_repeatto = this.cur_animation.repeatto;
 		
+		// Tick this object to change animation frame, but never tick single-animation, single-frame objects.
+		// Also don't tick zero speed animations until the speed or animation is changed, which saves ticking
+		// on tile sprites.
 		if (!(this.type.animations.length === 1 && this.type.animations[0].frames.length === 1) && this.cur_anim_speed !== 0)
 		{
 			this.runtime.tickMe(this);
@@ -281,8 +303,10 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.changeAnimFrom = 0;
 		this.changeAnimFrame = -1;
 		
+		// Ensure type has textures loaded
 		this.type.loadTextures();
 		
+		// Iterate all animations and frames ensuring WebGL textures are loaded and sizes are set
 		var i, leni, j, lenj;
 		var anim, frame, uv, maintex;
 		
@@ -294,12 +318,14 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			{
 				frame = anim.frames[j];
 				
+				// If size is zero, image is not on a sprite sheet.  Determine size now.
 				if (frame.width === 0)
 				{
 					frame.width = frame.texture_img.width;
 					frame.height = frame.texture_img.height;
 				}
 				
+				// If frame is spritesheeted update its uv coords
 				if (frame.spritesheeted)
 				{
 					maintex = frame.texture_img;
@@ -309,6 +335,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					uv.right = (frame.offx + frame.width) / maintex.width;
 					uv.bottom = (frame.offy + frame.height) / maintex.height;
 
+					// Check if frame is in fact a complete-frame spritesheet
 					if (frame.offx === 0 && frame.offy === 0 && frame.width === maintex.width && frame.height === maintex.height)
 					{
 						frame.spritesheeted = false;
@@ -319,12 +346,6 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		this.curFrame = this.cur_animation.frames[this.cur_frame];
 		this.curWebGLTexture = this.curFrame.webGL_texture;
-		
-		// Mesh
-		this.meshCols = this.properties[6];
-		this.meshRows = this.properties[7];
-		this.deformedVertices = {};
-		this.deformationHandles = {};
 	};
 	
 	instanceProto.saveToJSON = function ()
@@ -336,11 +357,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			"fs": this.frameStart,
 			"ar": this.animRepeats,
 			"at": this.animTimer.sum,
-			"rt": this.cur_anim_repeatto,
-			"mc": this.meshCols,
-			"mr": this.meshRows,
-			"dv": this.deformedVertices,
-			"dh": this.deformationHandles
+			"rt": this.cur_anim_repeatto
 		};
 		
 		if (!this.animPlaying)
@@ -384,23 +401,20 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.collision_poly.set_pts(this.curFrame.poly_pts);
 		this.hotspotX = this.curFrame.hotspotX;
 		this.hotspotY = this.curFrame.hotspotY;
-		
-		this.meshCols = o["mc"];
-		this.meshRows = o["mr"];
-		this.deformedVertices = o["dv"];
-		this.deformationHandles = o["dh"];
 	};
 	
 	instanceProto.animationFinish = function (reverse)
 	{
+		// stop
 		this.cur_frame = reverse ? 0 : this.cur_animation.frames.length - 1;
 		this.animPlaying = false;
 		
+		// trigger finish events
 		this.animTriggerName = this.cur_animation.name;
 		
 		this.inAnimTrigger = true;
-		this.runtime.trigger(cr.plugins_.ShukovsSprite.prototype.cnds.OnAnyAnimFinished, this);
-		this.runtime.trigger(cr.plugins_.ShukovsSprite.prototype.cnds.OnAnimFinished, this);
+		this.runtime.trigger(cr.plugins_.Sprite.prototype.cnds.OnAnyAnimFinished, this);
+		this.runtime.trigger(cr.plugins_.Sprite.prototype.cnds.OnAnimFinished, this);
 		this.inAnimTrigger = false;
 			
 		this.animRepeats = 0;
@@ -415,6 +429,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	{
 		this.animTimer.add(this.runtime.getDt(this));
 		
+		// Change any animation or frame that was queued
 		if (this.changeAnimName.length)
 			this.doChangeAnim();
 		if (this.changeAnimFrame >= 0)
@@ -428,24 +443,32 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		if (this.animPlaying && now >= this.frameStart + cur_frame_time)
 		{			
+			// Next frame
 			if (this.animForwards)
 			{
 				this.cur_frame++;
+				//log("Advancing animation frame forwards");
 			}
 			else
 			{
 				this.cur_frame--;
+				//log("Advancing animation frame backwards");
 			}
 				
 			this.frameStart += cur_frame_time;
 			
+			// Reached end of frames
 			if (this.cur_frame >= cur_animation.frames.length)
 			{
+				//log("At end of frames");
+				
 				if (cur_animation.pingpong)
 				{
 					this.animForwards = false;
 					this.cur_frame = cur_animation.frames.length - 2;
+					//log("Ping pong looping from end");
 				}
+				// Looping: wind back to repeat-to frame
 				else if (cur_animation.loop)
 				{
 					this.cur_frame = this.cur_anim_repeatto;
@@ -456,20 +479,25 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					
 					if (this.animRepeats >= cur_animation.repeatcount)
 					{
+						//log("Number of repeats reached; ending animation");
+						
 						this.animationFinish(false);
 					}
 					else
 					{
+						//log("Repeating");
 						this.cur_frame = this.cur_anim_repeatto;
 					}
 				}
 			}
+			// Ping-ponged back to start
 			if (this.cur_frame < 0)
 			{
 				if (cur_animation.pingpong)
 				{
 					this.cur_frame = 1;
 					this.animForwards = true;
+					//log("Ping ponging back forwards");
 					
 					if (!cur_animation.loop)
 					{
@@ -477,10 +505,13 @@ cr.plugins_.ShukovsSprite = function(runtime)
 							
 						if (this.animRepeats >= cur_animation.repeatcount)
 						{
+							//log("Number of repeats reached; ending animation");
+							
 							this.animationFinish(true);
 						}
 					}
 				}
+				// animation running backwards
 				else
 				{
 					if (cur_animation.loop)
@@ -491,25 +522,33 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					{
 						this.animRepeats++;
 						
+						// Reached number of repeats
 						if (this.animRepeats >= cur_animation.repeatcount)
 						{
+							//log("Number of repeats reached; ending animation");
+							
 							this.animationFinish(true);
 						}
 						else
 						{
+							//log("Repeating");
 							this.cur_frame = this.cur_anim_repeatto;
 						}
 					}
 				}
 			}
 			
+			// Don't go out of bounds
 			if (this.cur_frame < 0)
 				this.cur_frame = 0;
 			else if (this.cur_frame >= cur_animation.frames.length)
 				this.cur_frame = cur_animation.frames.length - 1;
 				
+			// If frameStart is still more than a whole frame away, we must've fallen behind.  Instead of
+			// going catch-up (cycling one frame per tick), reset the frame timer to now.
 			if (now > this.frameStart + (cur_animation.frames[this.cur_frame].duration / this.cur_anim_speed))
 			{
+				//log("Animation can't keep up, resetting timer");
 				this.frameStart = now;
 			}
 				
@@ -552,13 +591,16 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	{
 		var prev_frame = this.cur_animation.frames[this.cur_frame];
 		
+		// Find the animation by name
 		var anim = this.getAnimationByName(this.changeAnimName);
 		
 		this.changeAnimName = "";
 		
+		// couldn't find by name
 		if (!anim)
 			return;
 			
+		// don't change if setting same animation and the animation is already playing
 		if (cr.equals_nocase(anim.name, this.cur_animation.name) && this.animPlaying)
 			return;
 			
@@ -571,6 +613,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		if (this.cur_frame >= this.cur_animation.frames.length)
 			this.cur_frame = this.cur_animation.frames.length - 1;
 			
+		// from beginning
 		if (this.changeAnimFrom === 1)
 			this.cur_frame = 0;
 			
@@ -607,6 +650,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	instanceProto.OnFrameChanged = function (prev_frame, next_frame)
 	{
+		// Has the frame size changed?  Resize the object proportionally
 		var oldw = prev_frame.width;
 		var oldh = prev_frame.height;
 		var neww = next_frame.width;
@@ -617,14 +661,17 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		if (oldh != newh)
 			this.height *= (newh / oldh);
 			
+		// Update hotspot, collision poly and bounding box
 		this.hotspotX = next_frame.hotspotX;
 		this.hotspotY = next_frame.hotspotY;
 		this.collision_poly.set_pts(next_frame.poly_pts);
 		this.set_bbox_changed();
 		
+		// Update webGL texture if any
 		this.curFrame = next_frame;
 		this.curWebGLTexture = next_frame.webGL_texture;
 		
+		// Notify behaviors
 		var i, len, b;
 		for (i = 0, len = this.behavior_insts.length; i < len; i++)
 		{
@@ -634,7 +681,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				b.onSpriteFrameChanged(prev_frame, next_frame);
 		}
 		
-		this.runtime.trigger(cr.plugins_.ShukovsSprite.prototype.cnds.OnFrameChanged, this);
+		// Trigger 'on frame changed'
+		this.runtime.trigger(cr.plugins_.Sprite.prototype.cnds.OnFrameChanged, this);
 	};
 
 	instanceProto.draw = function(ctx)
@@ -714,7 +762,36 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			ctx.restore();
 		}
 			
-		// TODO: support mesh deformation in canvas2D if possible
+		//////////////////////////////////////////
+		// Draw collision poly (for debug)
+		/*
+		ctx.strokeStyle = "#f00";
+		ctx.lineWidth = 3;
+		ctx.beginPath();
+		this.collision_poly.cache_poly(this.width, this.height, this.angle);
+		var i, len, ax, ay, bx, by;
+		for (i = 0, len = this.collision_poly.pts_count; i < len; i++)
+		{
+			ax = this.collision_poly.pts_cache[i*2] + this.x;
+			ay = this.collision_poly.pts_cache[i*2+1] + this.y;
+			bx = this.collision_poly.pts_cache[((i+1)%len)*2] + this.x;
+			by = this.collision_poly.pts_cache[((i+1)%len)*2+1] + this.y;
+			
+			ctx.moveTo(ax, ay);
+			ctx.lineTo(bx, by);
+		}
+		
+		ctx.stroke();
+		ctx.closePath();
+		*/
+		// Draw physics polys (for debug)
+		/*
+		if (this.behavior_insts.length >= 1 && this.behavior_insts[0].draw)
+		{
+			this.behavior_insts[0].draw(ctx);
+		}
+		*/
+		//////////////////////////////////////////
 	};
 	
 	instanceProto.drawGL_earlyZPass = function(glw)
@@ -722,152 +799,170 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.drawGL(glw);
 	};
 	
-	instanceProto.getMeshVertex = function(c, r, hsX, hsY, absW, absH)
-	{
-		var default_u = c / this.meshCols;
-		var default_v = r / this.meshRows;
-		var delta_u = 0;
-		var delta_v = 0;
-		
-		for (var key in this.deformedVertices)
-		{
-			if (this.deformedVertices.hasOwnProperty(key))
-			{
-				var def = this.deformedVertices[key];
-				var parts = key.split("-");
-				var h_c = parseInt(parts[0], 10);
-				var h_r = parseInt(parts[1], 10);
-				var dist_sq = (c - h_c) * (c - h_c) + (r - h_r) * (r - h_r);
-				var w = def.weight;
-				var influence;
-				if (dist_sq === 0)
-					influence = 1;
-				else
-					influence = w / (w + dist_sq);
-				
-				delta_u += influence * (def.u - def.def_u);
-				delta_v += influence * (def.v - def.def_v);
-			}
-		}
-		
-		var u = default_u + delta_u;
-		var v = default_v + delta_v;
-		
-		var x = (u - hsX) * absW;
-		var y = (v - hsY) * absH;
-		return {x: x, y: y};
-	};
-	
 	instanceProto.drawGL = function(glw)
 	{
 		glw.setTexture(this.curWebGLTexture);
 		glw.setOpacity(this.opacity);
-		
 		var cur_frame = this.curFrame;
 		
-		var hsX = this.hotspotX;
-		var hsY = this.hotspotY;
-		var absW = Math.abs(this.width);
-		var absH = Math.abs(this.height);
-		var signX = (this.width >= 0 ? 1 : -1);
-		var signY = (this.height >= 0 ? 1 : -1);
-		var angle = this.angle;
-		var cosA = Math.cos(angle);
-		var sinA = Math.sin(angle);
-		var cols = this.meshCols;
-		var rows = this.meshRows;
+		var q = this.bquad;
 		
-		var fullTex = cur_frame.sheetTex;
-		if (!fullTex)
-			fullTex = new cr.rect(0, 0, 1, 1);
-		
-		var texW = fullTex.right - fullTex.left;
-		var texH = fullTex.bottom - fullTex.top;
-		
-		for (var row = 0; row < rows; row++)
+		if (this.runtime.pixel_rounding)
 		{
-			for (var col = 0; col < cols; col++)
-			{
-				var v00 = this.getMeshVertex(col, row, hsX, hsY, absW, absH);
-				var v10 = this.getMeshVertex(col + 1, row, hsX, hsY, absW, absH);
-				var v11 = this.getMeshVertex(col + 1, row + 1, hsX, hsY, absW, absH);
-				var v01 = this.getMeshVertex(col, row + 1, hsX, hsY, absW, absH);
-				
-				v00.x *= signX;
-				v00.y *= signY;
-				v10.x *= signX;
-				v10.y *= signY;
-				v11.x *= signX;
-				v11.y *= signY;
-				v01.x *= signX;
-				v01.y *= signY;
-				
-				var wx00 = cosA * v00.x - sinA * v00.y + this.x;
-				var wy00 = sinA * v00.x + cosA * v00.y + this.y;
-				var wx10 = cosA * v10.x - sinA * v10.y + this.x;
-				var wy10 = sinA * v10.x + cosA * v10.y + this.y;
-				var wx11 = cosA * v11.x - sinA * v11.y + this.x;
-				var wy11 = sinA * v11.x + cosA * v11.y + this.y;
-				var wx01 = cosA * v01.x - sinA * v01.y + this.x;
-				var wy01 = sinA * v01.x + cosA * v01.y + this.y;
-				
-				var subL = fullTex.left + texW * (col / cols);
-				var subT = fullTex.top + texH * (row / rows);
-				var subR = fullTex.left + texW * ((col + 1) / cols);
-				var subB = fullTex.top + texH * ((row + 1) / rows);
-				
-				var rcTex = new cr.rect(subL, subT, subR, subB);
-				
-				glw.quadTex(wx00, wy00, wx10, wy10, wx11, wy11, wx01, wy01, rcTex);
-			}
+			var ox = Math.round(this.x) - this.x;
+			var oy = Math.round(this.y) - this.y;
+			
+			if (cur_frame.spritesheeted)
+				glw.quadTex(q.tlx + ox, q.tly + oy, q.trx + ox, q.try_ + oy, q.brx + ox, q.bry + oy, q.blx + ox, q.bly + oy, cur_frame.sheetTex);
+			else
+				glw.quad(q.tlx + ox, q.tly + oy, q.trx + ox, q.try_ + oy, q.brx + ox, q.bry + oy, q.blx + ox, q.bly + oy);
+		}
+		else
+		{
+			if (cur_frame.spritesheeted)
+				glw.quadTex(q.tlx, q.tly, q.trx, q.try_, q.brx, q.bry, q.blx, q.bly, cur_frame.sheetTex);
+			else
+				glw.quad(q.tlx, q.tly, q.trx, q.try_, q.brx, q.bry, q.blx, q.bly);
 		}
 	};
 	
-	instanceProto.set_bbox_changed = function ()
+	instanceProto.getImagePointIndexByName = function(name_)
 	{
-		this.bbox_changed = true;
-		this.type.any_instance_parallaxed = true;
-		this.runtime.redraw = true;
+		var cur_frame = this.curFrame;
 		
-		// Recalculate bbox based on deformed vertices
-		var minx = Infinity;
-		var miny = Infinity;
-		var maxx = -Infinity;
-		var maxy = -Infinity;
-		
-		var hsX = this.hotspotX;
-		var hsY = this.hotspotY;
-		var absW = Math.abs(this.width);
-		var absH = Math.abs(this.height);
-		var signX = (this.width >= 0 ? 1 : -1);
-		var signY = (this.height >= 0 ? 1 : -1);
-		var cosA = Math.cos(this.angle);
-		var sinA = Math.sin(this.angle);
-		
-		for (var row = 0; row <= this.meshRows; row++)
+		var i, len;
+		for (i = 0, len = cur_frame.image_points.length; i < len; i++)
 		{
-			for (var col = 0; col <= this.meshCols; col++)
-			{
-				var v = this.getMeshVertex(col, row, hsX, hsY, absW, absH);
-				v.x *= signX;
-				v.y *= signY;
-				var wx = cosA * v.x - sinA * v.y + this.x;
-				var wy = sinA * v.x + cosA * v.y + this.y;
-				
-				if (wx < minx) minx = wx;
-				if (wx > maxx) maxx = wx;
-				if (wy < miny) miny = wy;
-				if (wy > maxy) maxy = wy;
-			}
+			if (cr.equals_nocase(name_, cur_frame.image_points[i][0]))
+				return i;
 		}
 		
-		this.bbox.set(minx, miny, maxx, maxy);
-		this.bquad.set_from_rect(this.bbox);
-		
-		if (this.collisionsEnabled)
-			this.type.update_colls(this);
+		return -1;
 	};
+	
+	instanceProto.getImagePoint = function(imgpt, getX)
+	{
+		var cur_frame = this.curFrame;
+		var image_points = cur_frame.image_points;
+		var index;
+		
+		if (cr.is_string(imgpt))
+			index = this.getImagePointIndexByName(imgpt);
+		else
+			index = imgpt - 1;	// 0 is origin
+			
+		index = cr.floor(index);
+		if (index < 0 || index >= image_points.length)
+			return getX ? this.x : this.y;	// return origin
+			
+		// get position scaled and relative to origin in pixels
+		var x = (image_points[index][1] - cur_frame.hotspotX) * this.width;
+		var y = image_points[index][2];
+		
+		y = (y - cur_frame.hotspotY) * this.height;
+		
+		// rotate by object angle
+		var cosa = Math.cos(this.angle);
+		var sina = Math.sin(this.angle);
+		var x_temp = (x * cosa) - (y * sina);
+		y = (y * cosa) + (x * sina);
+		x = x_temp;
+		x += this.x;
+		y += this.y;
+		return getX ? x : y;
+	};
+	
+	/**BEGIN-PREVIEWONLY**/
+	instanceProto.getDebuggerValues = function (propsections)
+	{
+		propsections.push({
+			"title": "Sprite animation",
+			"properties": [
+				{"name": "Current animation", "value": this.cur_animation.name},
+				{"name": "Current frame", "value": this.cur_frame},
+				{"name": "Playing", "value": this.animPlaying},
+				{"name": "Speed", "value": this.cur_anim_speed},
+				{"name": "Repeats", "value": this.animRepeats}
+			]
+		});
+	};
+	
+	instanceProto.onDebugValueEdited = function (header, name, value)
+	{
+		if (header === "Sprite animation")
+		{
+			if (name === "Current animation")
+			{
+				this.changeAnimName = value;
+				this.changeAnimFrom = 0;		// from current frame
+				
+				// start ticking if not already
+				if (!this.isTicking)
+				{
+					this.runtime.tickMe(this);
+					this.isTicking = true;
+				}
+				
+				// not in trigger: apply immediately
+				if (!this.inAnimTrigger)
+					this.doChangeAnim();
+			}
+			else if (name === "Current frame")
+			{
+				this.changeAnimFrame = value;
+		
+				// start ticking if not already
+				if (!this.isTicking)
+				{
+					this.runtime.tickMe(this);
+					this.isTicking = true;
+				}
+				
+				// not in trigger: apply immediately
+				if (!this.inAnimTrigger)
+					this.doChangeAnimFrame();
+			}
+			else if (name === "Playing")
+			{
+				this.animPlaying = value;
+				
+				if (this.animPlaying)
+				{
+					this.frameStart = this.getNowTime();
+					
+					// start ticking if not already
+					if (!this.isTicking)
+					{
+						this.runtime.tickMe(this);
+						this.isTicking = true;
+					}
+				}
+			}
+			else if (name === "Speed")
+			{
+				this.cur_anim_speed = cr.abs(value);
+				this.animForwards = (value >= 0);
+				
+				// start ticking if not already
+				if (!this.isTicking)
+				{
+					this.runtime.tickMe(this);
+					this.isTicking = true;
+				}
+			}
+			else if (name === "Repeats")
+			{
+				this.animRepeats = value;
+			}
+		}
+	};
+	/**END-PREVIEWONLY**/
 
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+
+	// For the collision memory in 'On collision'.
 	var arrCache = [];
 	
 	function allocArr()
@@ -888,6 +983,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	function makeCollKey(a, b)
 	{
+		// comma separated string with lowest value first
 		if (a < b)
 			return "" + a + "," + b;
 		else
@@ -903,6 +999,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		if (collmemory.hasOwnProperty(key))
 		{
+			// added already; just update tickcount
 			collmemory[key][2] = tickcount;
 			return;
 		}
@@ -935,6 +1032,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			{
 				entry = collmemory[p];
 				
+				// Referenced in either UID: must be removed
 				if (entry[0] === uid || entry[1] === uid)
 				{
 					freeArr(collmemory[p]);
@@ -964,8 +1062,6 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	var candidates1 = [];
 	
-	function Cnds() {};
-
 	Cnds.prototype.OnCollision = function (rtype)
 	{	
 		if (!rtype)
@@ -973,10 +1069,15 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			
 		var runtime = this.runtime;
 			
+		// Static condition: perform picking manually.
+		// Get the current condition.  This is like the 'is overlapping' condition
+		// but with a built in 'trigger once' for the l instances.
 		var cnd = runtime.getCurrentCondition();
 		var ltype = cnd.type;
 		var collmemory = null;
 		
+		// Create the collision memory, which remembers pairs of collisions that
+		// are already overlapping
 		if (cnd.extra["collmemory"])
 		{
 			collmemory = cnd.extra["collmemory"];
@@ -987,6 +1088,9 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			cnd.extra["collmemory"] = collmemory;
 		}
 		
+		// Once per condition, add a destroy callback to remove destroyed instances from collision memory
+		// which helps avoid a memory leak. Note the spriteCreatedDestroyCallback property is not saved
+		// to savegames, so loading a savegame will still cause a callback to be created, as intended.
 		if (!cnd.extra["spriteCreatedDestroyCallback"])
 		{
 			cnd.extra["spriteCreatedDestroyCallback"] = true;
@@ -996,11 +1100,14 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			});
 		}
 		
+		// Get the currently active SOLs for both objects involved in the overlap test
 		var lsol = ltype.getCurrentSol();
 		var rsol = rtype.getCurrentSol();
 		var linstances = lsol.getObjects();
 		var rinstances;
+		var registeredInstances;
 		
+		// Iterate each combination of instances
 		var l, linst, r, rinst;
 		var curlsol, currsol;
 		
@@ -1011,6 +1118,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		var current_event = runtime.getCurrentEventStack().current_event;
 		var orblock = current_event.orblock;
 		
+		// Note: don't cache lengths of linstances or rinstances. They can change if objects get destroyed in the event
+		// retriggering.
 		for (l = 0; l < linstances.length; l++)
 		{
 			linst = linstances[l];
@@ -1021,6 +1130,10 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				this.runtime.getCollisionCandidates(linst.layer, rtype, linst.bbox, candidates1);
 				rinstances = candidates1;
 				
+				// NOTE: some behaviors like Platform can register a collision, then push the instance back in to a different
+				// collision cell. This will cause the instance that registered a collision to not be in the collision
+				// candidates, and therefore fail to detect a collision. To avoid this, specifically search for a list of all
+				// instances that have registered a collision with linst, and ensure they are in the candidates.
 				this.runtime.addRegisteredCollisionCandidates(linst, rtype, rinstances);
 			}
 			else
@@ -1037,6 +1150,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					exists = collmemory_has(collmemory, linst, rinst);
 					run = (!exists || (last_coll_tickcount < lasttickcount));
 					
+					// objects are still touching so update the tickcount
 					collmemory_add(collmemory, linst, rinst, tickcount);
 					
 					if (run)
@@ -1047,15 +1161,18 @@ cr.plugins_.ShukovsSprite = function(runtime)
 						curlsol.select_all = false;
 						currsol.select_all = false;
 						
+						// If ltype === rtype, it's the same object (e.g. Sprite collides with Sprite)
+						// In which case, pick both instances
 						if (ltype === rtype)
 						{
-							curlsol.instances.length = 2;
+							curlsol.instances.length = 2;	// just use lsol, is same reference as rsol
 							curlsol.instances[0] = linst;
 							curlsol.instances[1] = rinst;
 							ltype.applySolToContainer();
 						}
 						else
 						{
+							// Pick each instance in its respective SOL
 							curlsol.instances.length = 1;
 							currsol.instances.length = 1;
 							curlsol.instances[0] = linst;
@@ -1070,6 +1187,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				}
 				else
 				{
+					// Pair not overlapping: ensure any record removed (mainly to save memory)
 					collmemory_remove(collmemory, linst, rinst);
 				}
 			}
@@ -1077,6 +1195,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			cr.clearArray(candidates1);
 		}
 		
+		// We've aleady run the event by now.
 		return false;
 	};
 	
@@ -1105,6 +1224,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		{
 			this.update_bbox();
 			
+			// Make sure queried box is offset the same as the collision offset so we look in
+			// the right cells
 			temp_bbox.copy(this.bbox);
 			temp_bbox.offset(offx, offy);
 			this.runtime.getCollisionCandidates(this.layer, rtype, temp_bbox, candidates2);
@@ -1112,6 +1233,9 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		}
 		else if (orblock)
 		{
+			// Normally the instances to process are in the else_instances array. However if a parent normal block
+			// already picked from rtype, it will have select_all off, no else_instances, and just some content
+			// in 'instances'. Look for this case in the first condition only.
 			if (this.runtime.isCurrentConditionFirst() && !rsol.else_instances.length && rsol.instances.length)
 				rinstances = rsol.instances;
 			else
@@ -1138,10 +1262,15 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		{
 			rinst = rinstances[r];
 			
+			// objects overlap: true for this instance, ensure both are picked
+			// (if ltype and rtype are same, e.g. "Sprite overlaps Sprite", don't pick the other instance,
+			// it will be picked when it gets iterated to itself)
 			if (this.runtime.testOverlap(this, rinst))
 			{
 				ret = true;
 				
+				// Inverted condition: just bail out now, don't pick right hand instance -
+				// also note we still return true since the condition invert flag makes that false
 				if (inverted)
 					break;
 					
@@ -1175,6 +1304,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			
 			if (sol.select_all)
 			{
+				// All selected: filter down to just those in topick
 				sol.select_all = false;
 				cr.clearArray(sol.instances);
 			
@@ -1183,6 +1313,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 					sol.instances[i] = topick[i];
 				}
 				
+				// In OR blocks, else_instances must also be filled with objects not in topick
 				if (orblock)
 				{
 					cr.clearArray(sol.else_instances);
@@ -1233,6 +1364,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	Cnds.prototype.IsAnimPlaying = function (animname)
 	{
+		// If awaiting a change of animation to really happen next tick, compare to that now
 		if (this.changeAnimName.length)
 			return cr.equals_nocase(this.changeAnimName, animname);
 		else
@@ -1287,6 +1419,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	
 	pluginProto.cnds = new Cnds();
 
+	//////////////////////////////////////
+	// Actions
 	function Acts() {};
 
 	Acts.prototype.Spawn = function (obj, layer, imgpt)
@@ -1321,6 +1455,13 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		this.runtime.isInOnDestroy--;
 		
+		// This action repeats for all picked instances.  We want to set the current
+		// selection to all instances that are created by this action.  Therefore,
+		// reset the SOL only for the first instance.  Determine this by the last tick count run.
+		// HOWEVER loops and the 'on collision' event re-triggers events, re-running the action
+		// with the same tickcount.  To get around this, triggers and re-triggering events increment
+		// the 'execcount', so each execution of the action has a different execcount even if not
+		// the same tickcount.
 		var cur_act = this.runtime.getCurrentAction();
 		var reset_sol = false;
 		
@@ -1332,6 +1473,8 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		var sol;
 		
+		// Pick just this instance, as long as it's a different type (else the SOL instances array is
+		// potentially modified while in use)
 		if (obj != this.type)
 		{
 			sol = obj.getCurrentSol();
@@ -1345,6 +1488,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			else
 				sol.instances.push(inst);
 				
+			// Siblings aren't in instance lists yet, pick them manually
 			if (inst.is_contained)
 			{
 				for (i = 0, len = inst.siblings.length; i < len; i++)
@@ -1376,13 +1520,16 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	Acts.prototype.StopAnim = function ()
 	{
 		this.animPlaying = false;
+		//log("Stopping animation");
 	};
 	
 	Acts.prototype.StartAnim = function (from)
 	{
 		this.animPlaying = true;
 		this.frameStart = this.getNowTime();
+		//log("Starting animation");
 		
+		// from beginning
 		if (from === 1 && this.cur_frame !== 0)
 		{
 			this.changeAnimFrame = 0;
@@ -1391,6 +1538,7 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				this.doChangeAnimFrame();
 		}
 		
+		// start ticking if not already
 		if (!this.isTicking)
 		{
 			this.runtime.tickMe(this);
@@ -1403,12 +1551,14 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.changeAnimName = animname;
 		this.changeAnimFrom = from;
 		
+		// start ticking if not already
 		if (!this.isTicking)
 		{
 			this.runtime.tickMe(this);
 			this.isTicking = true;
 		}
 		
+		// not in trigger: apply immediately
 		if (!this.inAnimTrigger)
 			this.doChangeAnim();
 	};
@@ -1417,12 +1567,14 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	{
 		this.changeAnimFrame = framenumber;
 		
+		// start ticking if not already
 		if (!this.isTicking)
 		{
 			this.runtime.tickMe(this);
 			this.isTicking = true;
 		}
 		
+		// not in trigger: apply immediately
 		if (!this.inAnimTrigger)
 			this.doChangeAnimFrame();
 	};
@@ -1432,6 +1584,9 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		this.cur_anim_speed = cr.abs(s);
 		this.animForwards = (s >= 0);
 		
+		//this.frameStart = this.runtime.kahanTime.sum;
+		
+		// start ticking if not already
 		if (!this.isTicking)
 		{
 			this.runtime.tickMe(this);
@@ -1497,20 +1652,26 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		
 		img.onload = function ()
 		{
+			// If this action was used on multiple instances, they will each try to create a
+			// separate image or texture, which is a waste of memory. So if the same image has
+			// already been loaded, ignore this callback.
 			if (curFrame_.texture_img.src === img.src)
 			{
+				// Still may need to switch to using the image's texture in WebGL renderer
 				if (self.runtime.glwrap && self.curFrame === curFrame_)
 					self.curWebGLTexture = curFrame_.webGL_texture;
 				
-				if (resize_ === 0)
+				// Still may need to update object size
+				if (resize_ === 0)		// resize to image size
 				{
 					self.width = img.width;
 					self.height = img.height;
 					self.set_bbox_changed();
 				}
 				
+				// Still need to trigger 'On loaded'
 				self.runtime.redraw = true;
-				self.runtime.trigger(cr.plugins_.ShukovsSprite.prototype.cnds.OnURLLoaded, self);
+				self.runtime.trigger(cr.plugins_.Sprite.prototype.cnds.OnURLLoaded, self);
 			
 				return;
 			}
@@ -1522,8 +1683,10 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			curFrame_.height = img.height;
 			curFrame_.spritesheeted = false;
 			curFrame_.datauri = "";
-			curFrame_.pixelformat = 0;
+			curFrame_.pixelformat = 0;	// reset to RGBA, since we don't know what type of image will have come in
+										// and it could be different to what the exporter set for the original image
 			
+			// WebGL renderer: need to create texture (canvas2D just draws with img directly)
 			if (self.runtime.glwrap)
 			{
 				if (curFrame_.webGL_texture)
@@ -1534,10 +1697,12 @@ cr.plugins_.ShukovsSprite = function(runtime)
 				if (self.curFrame === curFrame_)
 					self.curWebGLTexture = curFrame_.webGL_texture;
 				
+				// Need to update other instance's curWebGLTexture
 				self.type.updateAllCurrentTexture();
 			}
 			
-			if (resize_ === 0)
+			// Set size if necessary
+			if (resize_ === 0)		// resize to image size
 			{
 				self.width = img.width;
 				self.height = img.height;
@@ -1545,26 +1710,28 @@ cr.plugins_.ShukovsSprite = function(runtime)
 			}
 			
 			self.runtime.redraw = true;
-			self.runtime.trigger(cr.plugins_.ShukovsSprite.prototype.cnds.OnURLLoaded, self);
+			self.runtime.trigger(cr.plugins_.Sprite.prototype.cnds.OnURLLoaded, self);
 		};
 		
 		if (url_.substr(0, 5) !== "data:" && crossOrigin_ === 0)
 			img["crossOrigin"] = "anonymous";
 		
+		// use runtime function to work around WKWebView permissions
 		this.runtime.setImageSrc(img, url_);
 	};
 	
 	Acts.prototype.SetCollisions = function (set_)
 	{
 		if (this.collisionsEnabled === (set_ !== 0))
-			return;
+			return;		// no change
 		
 		this.collisionsEnabled = (set_ !== 0);
 		
 		if (this.collisionsEnabled)
-			this.set_bbox_changed();
+			this.set_bbox_changed();		// needs to be added back to cells
 		else
 		{
+			// remove from any current cells and restore to uninitialised state
 			if (this.collcells.right >= this.collcells.left)
 				this.type.collision_grid.update(this, this.collcells, null);
 			
@@ -1572,144 +1739,10 @@ cr.plugins_.ShukovsSprite = function(runtime)
 		}
 	};
 	
-	Acts.prototype.SetMeshGrid = function (cols, rows)
-	{
-		cols = Math.max(1, Math.floor(cols));
-		rows = Math.max(1, Math.floor(rows));
-		
-		if (this.meshCols === cols && this.meshRows === rows)
-			return;
-		
-		this.meshCols = cols;
-		this.meshRows = rows;
-		this.deformedVertices = {};
-		this.deformationHandles = {};
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.CreateDeformPoint = function (index, wx, wy)
-	{
-		var dx = wx - this.x;
-		var dy = wy - this.y;
-		var a = this.angle;
-		var ca = Math.cos(-a);
-		var sa = Math.sin(-a);
-		var lx = ca * dx - sa * dy;
-		var ly = sa * dx + ca * dy;
-		
-		if (this.width < 0) lx = -lx;
-		if (this.height < 0) ly = -ly;
-		
-		var absW = Math.abs(this.width);
-		var absH = Math.abs(this.height);
-		var u = (lx / absW) + this.hotspotX;
-		var v = (ly / absH) + this.hotspotY;
-		
-		u = cr.clamp(u, 0, 1);
-		v = cr.clamp(v, 0, 1);
-		
-		var grid_col = Math.round(u * this.meshCols);
-		var grid_row = Math.round(v * this.meshRows);
-		
-		grid_col = cr.clamp(grid_col, 0, this.meshCols);
-		grid_row = cr.clamp(grid_row, 0, this.meshRows);
-		
-		var def_u = grid_col / this.meshCols;
-		var def_v = grid_row / this.meshRows;
-		
-		var gridKey = grid_col + "-" + grid_row;
-		
-		this.deformedVertices[gridKey] = {u: def_u, v: def_v, def_u: def_u, def_v: def_v, weight: 1};
-		this.deformationHandles[index] = gridKey;
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.MoveDeformPoint = function (index, wx, wy)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-			return;
-		
-		var gridKey = this.deformationHandles[index];
-		
-		var dx = wx - this.x;
-		var dy = wy - this.y;
-		var a = this.angle;
-		var ca = Math.cos(-a);
-		var sa = Math.sin(-a);
-		var lx = ca * dx - sa * dy;
-		var ly = sa * dx + ca * dy;
-		
-		if (this.width < 0) lx = -lx;
-		if (this.height < 0) ly = -ly;
-		
-		var absW = Math.abs(this.width);
-		var absH = Math.abs(this.height);
-		var u = (lx / absW) + this.hotspotX;
-		var v = (ly / absH) + this.hotspotY;
-		
-		this.deformedVertices[gridKey].u = u;
-		this.deformedVertices[gridKey].v = v;
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.DeleteDeformPoint = function (index)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-			return;
-		
-		var gridKey = this.deformationHandles[index];
-		delete this.deformedVertices[gridKey];
-		delete this.deformationHandles[index];
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.DeleteAllDeformPoints = function ()
-	{
-		this.deformedVertices = {};
-		this.deformationHandles = {};
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.ResetDeformPoints = function ()
-	{
-		var key;
-		for (key in this.deformedVertices)
-		{
-			if (this.deformedVertices.hasOwnProperty(key))
-			{
-				var def = this.deformedVertices[key];
-				def.u = def.def_u;
-				def.v = def.def_v;
-			}
-		}
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
-	Acts.prototype.SetDeformPointWeight = function (index, weight)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-			return;
-		
-		var gridKey = this.deformationHandles[index];
-		this.deformedVertices[gridKey].weight = Math.max(weight, 0);
-		
-		this.set_bbox_changed();
-		this.runtime.redraw = true;
-	};
-	
 	pluginProto.acts = new Acts();
 	
+	//////////////////////////////////////
+	// Expressions
 	function Exps() {};
 	
 	Exps.prototype.AnimationFrame = function (ret)
@@ -1755,68 +1788,6 @@ cr.plugins_.ShukovsSprite = function(runtime)
 	Exps.prototype.ImageHeight = function (ret)
 	{
 		ret.set_float(this.curFrame.height);
-	};
-	
-	Exps.prototype.DeformPointX = function (ret, index)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-		{
-			ret.set_float(0);
-			return;
-		}
-		
-		var gridKey = this.deformationHandles[index];
-		var def = this.deformedVertices[gridKey];
-		var u = def.u;
-		var v = def.v;
-		var lx = (u - this.hotspotX) * Math.abs(this.width);
-		var ly = (v - this.hotspotY) * Math.abs(this.height);
-		if (this.width < 0) lx = -lx;
-		if (this.height < 0) ly = -ly;
-		var cos_ = Math.cos(this.angle);
-		var sin_ = Math.sin(this.angle);
-		var wx = cos_ * lx - sin_ * ly + this.x;
-		ret.set_float(wx);
-	};
-	
-	Exps.prototype.DeformPointY = function (ret, index)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-		{
-			ret.set_float(0);
-			return;
-		}
-		
-		var gridKey = this.deformationHandles[index];
-		var def = this.deformedVertices[gridKey];
-		var u = def.u;
-		var v = def.v;
-		var lx = (u - this.hotspotX) * Math.abs(this.width);
-		var ly = (v - this.hotspotY) * Math.abs(this.height);
-		if (this.width < 0) lx = -lx;
-		if (this.height < 0) ly = -ly;
-		var cos_ = Math.cos(this.angle);
-		var sin_ = Math.sin(this.angle);
-		var wy = sin_ * lx + cos_ * ly + this.y;
-		ret.set_float(wy);
-	};
-	
-	Exps.prototype.DeformPointCount = function (ret)
-	{
-		ret.set_int(Object.keys(this.deformationHandles).length);
-	};
-	
-	Exps.prototype.DeformPointWeight = function (ret, index)
-	{
-		if (!this.deformationHandles.hasOwnProperty(index))
-		{
-			ret.set_float(0);
-			return;
-		}
-		
-		var gridKey = this.deformationHandles[index];
-		var def = this.deformedVertices[gridKey];
-		ret.set_float(def.weight);
 	};
 	
 	pluginProto.exps = new Exps();
